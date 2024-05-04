@@ -1,0 +1,163 @@
+package ui;
+
+import java.util.Scanner;
+
+public class PostLoginUI {
+    private boolean isRunning;
+    private String username;
+    private String authString;
+    public PostLoginUI(String username, String authString) {
+        this.username=username;
+        this.authString=authString;
+        showMenu();
+    }
+
+    public void showMenu(){
+        isRunning=true;
+        int input;
+        while(isRunning){
+            //Output the options
+            System.out.println("Signed in as "+username);
+            System.out.println("Enter the number for the command");
+            System.out.println("[1] Help");
+            System.out.println("[2] Logout");
+            System.out.println("[3] Create Game");
+            System.out.println("[4] List Games");
+            System.out.println("[5] Join Game");
+            System.out.println("[6] Join Observer");
+            System.out.println("\n");
+            input=Integer.parseInt(readLine(true, 6));
+            switch (input) {
+                case 1 -> help();
+                case 2 -> {
+                    logout();
+                    break;
+                }
+                case 3 -> createGame();
+                case 4 -> listGame();
+                case 5 -> joinGame();
+                case 6 -> joinObserver();
+            }
+
+        }
+
+    }
+    private String readLine(boolean numCheck, int max){
+        Scanner scanner=new Scanner(System.in);
+        String input=scanner.nextLine();
+        if(numCheck){
+            try {
+                int num = Integer.parseInt(input);
+                if(num<0 || num>max){
+                    throw new NumberFormatException();
+                }
+                return input;
+
+            } catch (NumberFormatException e) {
+                System.out.println(input + " is not a valid option. " +
+                        "\nPlease enter an option again.\n");
+            }
+        }
+        else{
+            return input;
+        }
+
+        return null;
+    }
+
+    //help, logout, create game, list games, join game, join observer
+    private void help(){
+        System.out.println("[1] Help");
+        System.out.println("[2] Logout: Sign Out and return to the start menu.");
+        System.out.println("[3] Create Game: Create a new game to play." +
+                "\n\t- Requires a unique game name.");
+        System.out.println("[4] List Games: List all the games that are active.");
+        System.out.println("[5] Join Game: Join a game by ID number." +
+                "\n\t- Enter the game ID and color you want to join as." +
+                "\n\t- To see the Game IDs run List Games");
+        System.out.println("[6] Join Observer: Join a game to watch two other players." +
+                "\n\t- Enter the game ID to join.");
+        System.out.println("\n");
+    }
+    private void logout() {
+        try{
+            new ServerFacade().logout(authString);
+        }
+        catch (Exception e){
+            System.out.println("Error Logging out: "+e.getMessage());
+        }
+        isRunning=false;
+    }
+    private void createGame(){
+        try {
+            System.out.println("Enter the game name:");
+            String name = readLine(false, -1);
+            if (name == null) {
+                throw new Exception("No name was entered");
+            }
+            new ServerFacade().createGame(authString, name);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void listGame() {
+        //list games no return
+        try {
+            new ServerFacade().listGames(authString);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void joinGame(){
+        try {
+            System.out.println("Enter the Number for the Game or -1 to return to the menu:");
+            int gameNum = Integer.parseInt(readLine(true, 9999));
+            if(gameNum == -1){
+                return;
+            }
+            //FIXME link this to the list rather than GameID
+            System.out.println("Enter what color you will play as:");
+            String color = readLine(false, -1);
+            if(!color.equalsIgnoreCase("white") || !color.equalsIgnoreCase("black")){
+                throw new Exception();
+            }
+
+            //Changes the database
+            new ServerFacade().JoinGame(authString, gameNum, username, color);
+
+            //Prints out the chessboard and runs the actual game
+            new ChessBoardConsole();
+
+        }
+        catch(Exception e){
+            System.out.println("Game number was incorrect or the color was not 'black' or 'white'.");
+            System.out.println("There may also already be a player, check this with List Games.");
+            System.out.println("\n");
+        }
+
+
+    }
+    private void joinObserver(){
+        try {
+            System.out.println("Enter the Number for the Game or -1 to return to the menu:");
+            int gameNum = Integer.parseInt(readLine(true, 9999));
+            //FIXME link this to the list rather than GameID
+            System.out.println("Enter what color you will play as:");
+            String color = null;
+
+            //Changes the database
+            new ServerFacade().JoinGame(authString, gameNum, username, color);
+
+            //Prints out the chessboard
+            new ChessBoardDraw();
+
+        }
+        catch(Exception e){
+            System.out.println("Game number was incorrect.");
+            System.out.println(e.getMessage());
+            System.out.println("\n");
+        }
+    }
+}
