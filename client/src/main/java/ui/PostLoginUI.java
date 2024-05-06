@@ -125,7 +125,7 @@ public class PostLoginUI {
             }
 
             //Changes the database
-            new ServerFacade().JoinGame(authString, gameNum, username, color);
+            new ServerFacade().joinGame(authString, gameNum, username, color);
 
             //Prints out the chessboard and runs the actual game
             new ChessBoardConsole();
@@ -148,7 +148,7 @@ public class PostLoginUI {
             String color = null;
 
             //Changes the database
-            new ServerFacade().JoinGame(authString, gameNum, username, color);
+            new ServerFacade().joinGame(authString, gameNum, username, color);
 
             //Prints out the chessboard
             new ChessBoardDraw();

@@ -119,7 +119,7 @@ public class ServerFacade {
         }
     }
 
-    public void JoinGame(String authString, int gameNum, String userName, String color) throws Exception{
+    public void joinGame(String authString, int gameNum, String userName, String color) throws Exception{
         // Specify the desired endpoint
         URI uri = new URI("http://localhost:8080/game");
         HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
