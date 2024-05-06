@@ -24,10 +24,7 @@ public class JoinService extends Service{
             //Checking team color
             ChessGame.TeamColor color;
             if(request.getPlayerColor()==null || request.getPlayerColor().isBlank()){
-                /*
-                This is where join observer would go
-                 */
-                return;
+                throw new ServerException("Error: Bad Request", 400);
             }
             if(request.getPlayerColor().equalsIgnoreCase("White")){
                 color= ChessGame.TeamColor.WHITE;
