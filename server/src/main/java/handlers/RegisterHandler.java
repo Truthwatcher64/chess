@@ -2,7 +2,7 @@ package handlers;
 
 import com.google.gson.Gson;
 import Result.*;
-import Request.*;
+import request.*;
 import server.ServerException;
 import service.RegisterService;
 import spark.Request;
@@ -53,7 +53,6 @@ public class RegisterHandler extends Handler{
             res.body(e.getMessage());
             res.status(e.getErrorCode());
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
 
         return body;

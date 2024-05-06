@@ -1,21 +1,25 @@
-package Request;
+package request;
 /**
- * Request sent to login a user
+ * Request sent to register a new user
  */
-public class LoginRequest {
+public class RegisterRequest {
     /**
-     * Username of the current user
+     * Username of a brand-new player
      */
     private String username;
     /**
-     * Attempted password for the user
+     * Password of the new player
      */
     private String password;
+    /**
+     * Email of the new player
+     */
+    private String email;
 
     /**
-     * Makes request based on username and password
+     * Request for a new user
      */
-    public LoginRequest(){
+    public RegisterRequest(){
 
     }
 
@@ -33,5 +37,13 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

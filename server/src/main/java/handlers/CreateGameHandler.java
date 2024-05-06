@@ -7,7 +7,7 @@ import server.ServerException;
 import service.CreateService;
 import spark.Request;
 import spark.Response;
-import Request.CreateRequest;
+import request.CreateRequest;
 
 public class CreateGameHandler extends Handler{
 

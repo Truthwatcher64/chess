@@ -1,7 +1,7 @@
 package service;
 
 
-import Request.CreateRequest;
+import request.CreateRequest;
 import Result.CreateResult;
 import dataaccess.*;
 import model.GameData;

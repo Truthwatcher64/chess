@@ -7,7 +7,7 @@ import server.ServerException;
 import spark.Request;
 import spark.Response;
 
-import Request.*;
+import request.*;
 
 public class LoginHandler extends Handler{
     @Override

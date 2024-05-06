@@ -1,4 +1,4 @@
-package Request;
+package request;
 
 /**
  * Request sent to join a game

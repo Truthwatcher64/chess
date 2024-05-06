@@ -1,6 +1,6 @@
 package service;
 
-import Request.JoinRequest;
+import request.JoinRequest;
 import chess.ChessGame;
 import dataaccess.DataAccessException;
 import dataaccess.SqlAuthDAO;
