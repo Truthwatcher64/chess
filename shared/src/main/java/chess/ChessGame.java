@@ -165,7 +165,7 @@ public class ChessGame {
 
         //check what is at the end spot
         fullBoard.addPiece(end, piece);
-        fullBoard.addPiece(start, new ChessPiece(null, null));
+        fullBoard.addPiece(start, null);
 
         doPawnStuff(end, move);
 
