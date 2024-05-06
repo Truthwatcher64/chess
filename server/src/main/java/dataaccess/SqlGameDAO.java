@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SqlGameDAO implements GameDAO{
-    private final String TABLENAME="game";
+    private static final String TABLENAME="game";
     @Override
     public void clear() throws DataAccessException {
         DatabaseManager databaseManager= new DatabaseManager();

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class SqlAuthDAO implements AuthDAO {
 
-    private final String TABLENAME="auth";
+    private static final String TABLENAME="auth";
 
     @Override
     public void clear() throws DataAccessException{

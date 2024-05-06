@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 public class SqlUserDAO implements UserDAO{
-    private final String TABLENAME ="user";
+    private static final String TABLENAME ="user";
     @Override
     public void clear() throws DataAccessException {
         DatabaseManager databaseManager= new DatabaseManager();
