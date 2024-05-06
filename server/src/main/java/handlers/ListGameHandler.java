@@ -1,18 +1,16 @@
 package handlers;
 
-import Result.ListGamesResult;
+import result.ListGamesResult;
 import com.google.gson.Gson;
 import model.GameData;
 import server.ServerException;
 import service.ListService;
-import service.Service;
 import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class ListGameHandler extends Handler{
     @Override

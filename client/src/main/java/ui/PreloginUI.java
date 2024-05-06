@@ -1,6 +1,6 @@
 package ui;
-import Result.LoginResult;
-import Result.RegisterResult;
+import result.LoginResult;
+import result.RegisterResult;
 
 import java.util.Map;
 import java.util.Scanner;

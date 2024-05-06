@@ -1,4 +1,4 @@
-package Result;
+package result;
 
 /**
  * Result from any type of service

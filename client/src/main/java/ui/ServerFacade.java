@@ -1,7 +1,7 @@
 package ui;
 
-import Result.LoginResult;
-import Result.RegisterResult;
+import result.LoginResult;
+import result.RegisterResult;
 import com.google.gson.Gson;
 import model.GameData;
 

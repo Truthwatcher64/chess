@@ -1,4 +1,4 @@
-package Result;
+package result;
 /**
  * Result from a create request for a game.
  */

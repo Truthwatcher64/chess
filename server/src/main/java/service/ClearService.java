@@ -1,7 +1,7 @@
 package service;
 
 
-import Result.Result;
+import result.Result;
 import dataaccess.*;
 import server.ServerException;
 

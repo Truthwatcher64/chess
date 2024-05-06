@@ -1,6 +1,6 @@
 package handlers;
 
-import Result.Result;
+import result.Result;
 import request.JoinRequest;
 import com.google.gson.Gson;
 import server.ServerException;

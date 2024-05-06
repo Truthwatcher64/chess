@@ -1,21 +1,22 @@
-package Result;
+package result;
+
 /**
- * Result from a attempted register of a new user
+ * Result of a Login attempt
  */
-public class RegisterResult extends Result{
+public class LoginResult extends Result{
     /**
-     * Newly created username
+     * username of successful sign in
      */
     private String username;
     /**
-     * authToken associated with the new user
+     * authToken that is associated with the user
      */
     private String authToken;
 
     /**
-     * Creates the result, no parameters
+     * Creates the Result, no parameters
      */
-    public RegisterResult(){
+    public LoginResult(){
 
     }
 

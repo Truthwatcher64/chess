@@ -2,7 +2,7 @@ package service;
 
 
 import request.CreateRequest;
-import Result.CreateResult;
+import result.CreateResult;
 import dataaccess.*;
 import model.GameData;
 import server.ServerException;

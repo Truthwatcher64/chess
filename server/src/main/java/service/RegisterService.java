@@ -4,7 +4,7 @@ import request.RegisterRequest;
 import dataaccess.*;
 import model.AuthData;
 import model.UserData;
-import Result.RegisterResult;
+import result.RegisterResult;
 import server.ServerException;
 
 import java.util.UUID;

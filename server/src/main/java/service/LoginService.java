@@ -1,7 +1,7 @@
 package service;
 
 import request.LoginRequest;
-import Result.LoginResult;
+import result.LoginResult;
 import dataaccess.DataAccessException;
 import dataaccess.SqlAuthDAO;
 import dataaccess.SqlUserDAO;

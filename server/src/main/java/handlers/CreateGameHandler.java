@@ -1,7 +1,7 @@
 package handlers;
 
-import Result.CreateResult;
-import Result.Result;
+import result.CreateResult;
+import result.Result;
 import com.google.gson.Gson;
 import server.ServerException;
 import service.CreateService;

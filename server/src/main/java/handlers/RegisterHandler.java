@@ -1,7 +1,7 @@
 package handlers;
 
 import com.google.gson.Gson;
-import Result.*;
+import result.*;
 import request.*;
 import server.ServerException;
 import service.RegisterService;
