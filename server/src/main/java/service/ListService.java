@@ -2,9 +2,8 @@ package service;
 
 import java.util.Collection;
 
-import dataAccess.DataAccessException;
-import dataAccess.DatabaseManager;
-import dataAccess.SqlGameDAO;
+import dataaccess.DataAccessException;
+import dataaccess.SqlGameDAO;
 import model.GameData;
 import server.ServerException;
 

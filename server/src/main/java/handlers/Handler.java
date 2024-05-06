@@ -1,10 +1,5 @@
 package handlers;
 
-import dataAccess.DatabaseManager;
-import dataAccess.FakeData;
-import dataAccess.SqlAuthDAO;
-import model.AuthData;
-import server.ServerException;
 import spark.Request;
 import spark.Response;
 

@@ -1,7 +1,6 @@
 package service;
-import Result.Result;
-import dataAccess.DataAccessException;
-import dataAccess.SqlAuthDAO;
+import dataaccess.DataAccessException;
+import dataaccess.SqlAuthDAO;
 import server.ServerException;
 
 public class LogoutService {

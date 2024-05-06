@@ -2,9 +2,9 @@ package service;
 
 import Request.JoinRequest;
 import chess.ChessGame;
-import dataAccess.DataAccessException;
-import dataAccess.SqlAuthDAO;
-import dataAccess.SqlGameDAO;
+import dataaccess.DataAccessException;
+import dataaccess.SqlAuthDAO;
+import dataaccess.SqlGameDAO;
 import server.ServerException;
 
 public class JoinService extends Service{

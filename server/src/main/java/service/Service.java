@@ -1,7 +1,8 @@
 package service;
 
-import dataAccess.DataAccessException;
-import dataAccess.SqlAuthDAO;
+import dataaccess.DataAccessException;
+import dataaccess.SqlAuthDAO;
+import org.mindrot.jbcrypt.BCrypt;
 import server.ServerException;
 
 public class Service {
@@ -21,5 +22,15 @@ public class Service {
             }
 
         }
+    }
+
+    protected String hashPassword(String password) {
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        return hashedPassword;
+    }
+
+    protected boolean verifyUser(String hashedPassword, String clearPassword) {
+        return BCrypt.checkpw(clearPassword, hashedPassword);
     }
 }

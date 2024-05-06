@@ -2,8 +2,6 @@ package handlers;
 
 import Result.Result;
 import com.google.gson.Gson;
-import dataAccess.DataAccessException;
-import dataAccess.SqlAuthDAO;
 import server.ServerException;
 import service.LogoutService;
 import spark.Request;

@@ -1,4 +1,4 @@
-package dataAccess;
+package dataaccess;
 
 public interface DataAccess {
 //    public void clear();

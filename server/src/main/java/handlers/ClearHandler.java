@@ -2,9 +2,6 @@ package handlers;
 
 import Result.Result;
 import com.google.gson.Gson;
-import dataAccess.DatabaseManager;
-import dataAccess.FakeData;
-import dataAccess.MemoryUserDAO;
 import server.ServerException;
 import service.ClearService;
 import spark.Request;

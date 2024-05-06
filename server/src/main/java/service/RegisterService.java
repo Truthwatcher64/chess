@@ -1,7 +1,7 @@
 package service;
 
 import Request.RegisterRequest;
-import dataAccess.*;
+import dataaccess.*;
 import model.AuthData;
 import model.UserData;
 import Result.RegisterResult;
@@ -9,7 +9,7 @@ import server.ServerException;
 
 import java.util.UUID;
 
-public class RegisterService {
+public class RegisterService extends Service{
 
     public RegisterResult register(RegisterRequest request) throws ServerException {
         RegisterResult result=new RegisterResult();
@@ -29,9 +29,9 @@ public class RegisterService {
                     throw new ServerException("Error: User Already Taken", 403);
                 }
 
-                //FIXME add bcrypt to hash the password
 
-                userDAO.addUser(new UserData(request.getUsername(), request.getPassword(), request.getEmail()));
+
+                userDAO.addUser(new UserData(request.getUsername(), hashPassword(request.getPassword()), request.getEmail()));
                 result.setUsername(request.getUsername());
                 System.out.println("Complete");
 
@@ -47,4 +47,6 @@ public class RegisterService {
         }
         return result;
     }
+
+
 }

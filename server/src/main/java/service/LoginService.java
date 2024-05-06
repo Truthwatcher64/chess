@@ -2,15 +2,15 @@ package service;
 
 import Request.LoginRequest;
 import Result.LoginResult;
-import dataAccess.DataAccessException;
-import dataAccess.SqlAuthDAO;
-import dataAccess.SqlUserDAO;
+import dataaccess.DataAccessException;
+import dataaccess.SqlAuthDAO;
+import dataaccess.SqlUserDAO;
 import model.AuthData;
 import server.ServerException;
 
 import java.util.UUID;
 
-public class LoginService {
+public class LoginService extends Service{
 
     public LoginResult login(LoginRequest request) throws ServerException{
         SqlUserDAO userDAO=new SqlUserDAO();
@@ -25,10 +25,9 @@ public class LoginService {
         }
 
         try{
-            //FIXME add bycrypt here
             String dbPassword=userDAO.getPassword(request.getUsername());
             String inputPassword=request.getPassword();
-            if(dbPassword==null || !dbPassword.equals(inputPassword)){
+            if(dbPassword==null || !verifyUser(dbPassword, inputPassword)){
                 throw new ServerException("Error: Unauthorized, Check your username and password", 401);
             }
             String tempAuthToken = UUID.randomUUID().toString();

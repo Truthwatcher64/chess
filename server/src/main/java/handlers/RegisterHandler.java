@@ -1,8 +1,6 @@
 package handlers;
 
 import com.google.gson.Gson;
-import dataAccess.DatabaseManager;
-import dataAccess.FakeData;
 import Result.*;
 import Request.*;
 import server.ServerException;

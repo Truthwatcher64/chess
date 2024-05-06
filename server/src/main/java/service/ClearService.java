@@ -2,8 +2,7 @@ package service;
 
 
 import Result.Result;
-import dataAccess.AuthDAO;
-import dataAccess.*;
+import dataaccess.*;
 import server.ServerException;
 
 /**

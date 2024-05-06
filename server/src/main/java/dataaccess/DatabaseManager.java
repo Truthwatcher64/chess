@@ -1,11 +1,9 @@
-package dataAccess;
+package dataaccess;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.Properties;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
