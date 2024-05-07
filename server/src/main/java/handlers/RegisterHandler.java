@@ -52,7 +52,7 @@ public class RegisterHandler extends Handler{
             body=new Gson().toJson(result);
             res.body(e.getMessage());
             res.status(e.getErrorCode());
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
         return body;

@@ -10,7 +10,7 @@ public abstract class Handler {
 
     protected void setFinalError(String message, Response res){
         if(message!=null && message.contains("Error") && res.status()<=200){
-            System.out.println(message);
+            System.err.println(message);
             res.status(500);
         }
     }
