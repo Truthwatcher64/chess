@@ -29,10 +29,17 @@ function send(path, params, method, authToken) {
     })
     .then((data) => {
       document.getElementById('authToken').value = data.authToken || authToken || 'none';
+
       document.getElementById('response').innerText = errStr + JSON.stringify(data, null, 2);
+
     })
     .catch((error) => {
+      console.log(errStr);
       document.getElementById('response').innerText = error;
+      document.getElementById('response').append("\n\n"+errStr+"This is most likely from one of the following things:" +
+          "\n - Your server is not running correctly\n - You don't have the right port number\n"+
+          " - The endpoint for "+method+" "+path+" is not setup correctly\n - You sent back an empty object or one that didn't have any JSON");
+
     });
 }
 
