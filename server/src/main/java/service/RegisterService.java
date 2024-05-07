@@ -33,7 +33,6 @@ public class RegisterService extends Service{
 
                 userDAO.addUser(new UserData(request.getUsername(), hashPassword(request.getPassword()), request.getEmail()));
                 result.setUsername(request.getUsername());
-                System.out.println("Complete");
 
                 //Creates the authToken for the User
                 String tempAuthToken = UUID.randomUUID().toString();
