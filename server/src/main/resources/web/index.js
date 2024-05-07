@@ -37,8 +37,7 @@ function send(path, params, method, authToken) {
       console.log(errStr);
       document.getElementById('response').innerText = error;
       document.getElementById('response').append("\n\n"+errStr+"This is most likely from one of the following things:" +
-          "\n - Your server is not running correctly\n - You don't have the right port number\n"+
-          " - The endpoint for "+method+" "+path+" is not setup correctly\n - You sent back an empty object or one that didn't have any JSON");
+          "\n - The endpoint for "+method+" "+path+" is not setup correctly\n - You sent back text or an error that didn't have any JSON");
 
     });
 }
