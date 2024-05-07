@@ -11,8 +11,8 @@ public class Server {
         try{
             this.database=new DatabaseManager();
         }catch (Exception e){
-            System.out.println("Error: The database failed to setup and the server can't run properly");
-            System.out.println(e.getMessage());
+            System.err.println("Error: The database failed to setup and the server can't run properly");
+            System.err.println(e.getMessage());
         }
 
 

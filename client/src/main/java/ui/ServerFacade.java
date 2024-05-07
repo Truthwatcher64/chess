@@ -43,10 +43,9 @@ public class ServerFacade {
         try (InputStream respBody = http.getInputStream()) {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             LoginResult result = new Gson().fromJson(inputStreamReader, LoginResult.class);
-            System.out.println(result.getAuthToken());
             return result;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return null;
         }
     }
@@ -102,7 +101,6 @@ public class ServerFacade {
         try (InputStream respBody = http.getInputStream()) {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             RegisterResult result = new Gson().fromJson(inputStreamReader, RegisterResult.class);
-            //System.out.println(result.getAuthToken());
             return result;
         } catch (Exception e) {
             System.out.println(e.getMessage());
