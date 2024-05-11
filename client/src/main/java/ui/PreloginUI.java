@@ -34,9 +34,6 @@ public class PreloginUI {
                     case 4 -> register();
                 }
             }
-            else{
-
-            }
         }
     }
 
