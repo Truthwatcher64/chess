@@ -173,30 +173,26 @@ public class ServerFacade {
     }
 
     public List<GameData> listGames(String authString) throws Exception {
-        // Specify the desired endpoint
         URI uri = new URI("http://localhost:8080/game");
         HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
         http.setRequestMethod("GET");
 
-
-        // Specify that we are going to write out data
         http.setDoOutput(true);
 
-        // Write out a header
         http.addRequestProperty("Authorization", authString);
 
-        // Make the request
         http.connect();
 
         // Output the response body
         try (InputStream respBody = http.getInputStream()) {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-            Map temp = new Gson().fromJson(inputStreamReader, Map.class);
-            System.out.println(temp);
+            List temp = new Gson().fromJson(inputStreamReader, List.class);
+            return temp;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return null;
+
     }
 
 }

@@ -29,16 +29,10 @@ function send(path, params, method, authToken) {
     })
     .then((data) => {
       document.getElementById('authToken').value = data.authToken || authToken || 'none';
-
       document.getElementById('response').innerText = errStr + JSON.stringify(data, null, 2);
-
     })
     .catch((error) => {
-      console.log(errStr);
       document.getElementById('response').innerText = error;
-      document.getElementById('response').append("\n\n"+errStr+"This is most likely from one of the following things:" +
-          "\n - The endpoint for "+method+" "+path+" is not setup correctly\n - You sent back text or an error that didn't have any JSON");
-
     });
 }
 
@@ -47,6 +41,10 @@ function displayRequest(method, endpoint, request) {
   document.getElementById('handleBox').value = endpoint;
   const body = request ? JSON.stringify(request, null, 2) : '';
   document.getElementById('requestBox').value = body;
+  window.scrollBy({
+    top: document.getElementById('execute').getBoundingClientRect().top,
+    behavior:"smooth"
+  });
 }
 
 function clearAll() {

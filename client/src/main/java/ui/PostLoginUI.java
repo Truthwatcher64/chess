@@ -1,11 +1,15 @@
 package ui;
 
+import model.GameData;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class PostLoginUI {
     private boolean isRunning;
     private String username;
     private String authString;
+    private List<GameData> localGames;
     public PostLoginUI(String username, String authString) {
         this.username=username;
         this.authString=authString;
@@ -29,10 +33,7 @@ public class PostLoginUI {
             input=Integer.parseInt(readLine(true, 6));
             switch (input) {
                 case 1 -> help();
-                case 2 -> {
-                    logout();
-                    break;
-                }
+                case 2 -> logout();
                 case 3 -> createGame();
                 case 4 -> listGame();
                 case 5 -> joinGame();
@@ -82,11 +83,11 @@ public class PostLoginUI {
     private void logout() {
         try{
             new ServerFacade().logout(authString);
+            isRunning=false;
         }
         catch (Exception e){
             System.out.println("Error Logging out: "+e.getMessage());
         }
-        isRunning=false;
     }
     private void createGame(){
         try {
@@ -104,7 +105,10 @@ public class PostLoginUI {
     private void listGame() {
         //list games no return
         try {
-            new ServerFacade().listGames(authString);
+            updateLocalGames();
+            for(GameData game : localGames){
+                System.out.println();
+            }
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -158,6 +162,15 @@ public class PostLoginUI {
             System.out.println("Game number was incorrect.");
             System.out.println(e.getMessage());
             System.out.println("\n");
+        }
+    }
+
+    private void updateLocalGames(){
+        try {
+            localGames = new ServerFacade().listGames(authString);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
