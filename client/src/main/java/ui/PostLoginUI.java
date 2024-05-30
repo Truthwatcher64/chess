@@ -1,6 +1,8 @@
 package ui;
 
+import com.google.gson.Gson;
 import model.GameData;
+import websocket.commands.Connect;
 
 import java.util.List;
 import java.util.Scanner;
@@ -68,6 +70,7 @@ public class PostLoginUI {
 
     //help, logout, create game, list games, join game, join observer
     private void help(){
+        System.out.println("Signed in as "+username);
         System.out.println("[1] Help");
         System.out.println("[2] Logout: Sign Out and return to the start menu.");
         System.out.println("[3] Create Game: Create a new game to play." +
@@ -131,8 +134,12 @@ public class PostLoginUI {
             //Changes the database
             new ServerFacade().joinGame(authString, gameNum, username, color);
 
+            //Connects websocket
+            WebsocketClient webConnect = new WebsocketClient();
+            webConnect.send(new Gson().toJson(new Connect(authString, gameNum)));
+
             //Prints out the chessboard and runs the actual game
-            new ChessBoardConsole();
+            new ChessUI(authString, gameNum, webConnect);
 
         }
         catch(Exception e){
