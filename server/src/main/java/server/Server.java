@@ -24,7 +24,7 @@ public class Server {
 
 
 //        // Register handlers for each endpoint using the method reference syntax
-        Spark.webSocket("/connect", new WebsocketHandler());
+        Spark.webSocket("/ws", new WebsocketHandler());
         Spark.delete("/db", ((request, response) -> new ClearHandler().handleRequest(request, response)));
         Spark.post("/user", ((request, response) -> new RegisterHandler().handleRequest(request, response)));
         Spark.post("/session", ((request, response) -> new LoginHandler().handleRequest(request, response)));
