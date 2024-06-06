@@ -6,11 +6,14 @@ import dataaccess.DataAccessException;
 import dataaccess.DatabaseManager;
 import dataaccess.SqlAuthDAO;
 import dataaccess.SqlGameDAO;
+import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import websocket.commands.Connect;
+import websocket.commands.Leave;
 import websocket.commands.UserGameCommand;
+import websocket.messages.Error;
 import websocket.messages.LoadGame;
 import websocket.messages.Notification;
 
@@ -29,7 +32,7 @@ public class WebsocketHandler {
             this.session=s;
         }
     }
-    Map<Integer, ArrayList<Person>> connections;
+    static Map<Integer, ArrayList<Person>> connections;
 
     public WebsocketHandler(){
         this.connections=new HashMap<>();
@@ -50,35 +53,50 @@ public class WebsocketHandler {
 
     private void connect(Session session, String msg) {
         try {
-            Connect connect = new Gson().fromJson(msg, Connect.class);
-            if (connections.containsKey(connect.getGameID())) {
-                connections.get(connect.getGameID()).add(new Person(connect.getAuthString(), session));
-            } else {
-                connections.put(connect.getGameID(), new ArrayList<>());
-                connections.get(connect.getGameID()).add(new Person(connect.getAuthString(), session));
-            }
             SqlAuthDAO authDAO = new SqlAuthDAO();
             SqlGameDAO gameDAO = new SqlGameDAO();
-            String username = authDAO.getUsername(connect.getAuthString());
-            String color = null;
-            if(gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)){
-                color="White";
-            }
-            if(gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)){
-                color="Black";
-            }
-            Notification joined;
-            if(color==null){
-                joined = new Notification(username+" joined the game as an observer.");
-            }
-            else{
-                joined = new Notification(username+" joined the game as "+color+".");
-            }
-            sendToAllOthers(new Gson().toJson(joined), connect.getGameID(), connect.getAuthString());
+            Connect connect = new Gson().fromJson(msg, Connect.class);
 
-            LoadGame load;
-            load=new LoadGame(gameDAO.getGame(connect.getGameID()).game());
-            sendToMe(new Gson().toJson(load), connect.getGameID(), connect.getAuthString());
+            if(gameDAO.getGame(connect.getGameID()) == null){
+                Error error = new Error("Error: incorrect GameID");
+                String json = new Gson().toJson(error);
+                session.getRemote().sendString(json);
+                //sendToMe(json, connect.getGameID(), connect.getAuthString());
+            }
+            else if(authDAO.getUsername(connect.getAuthString()) ==  null){
+                Error error = new Error("Error: Unauthorized");
+                String json = new Gson().toJson(error);
+                session.getRemote().sendString(json);
+            }
+            else {
+
+                if (connections.containsKey(connect.getGameID())) {
+                    connections.get(connect.getGameID()).add(new Person(connect.getAuthString(), session));
+                } else {
+                    connections.put(connect.getGameID(), new ArrayList<>());
+                    connections.get(connect.getGameID()).add(new Person(connect.getAuthString(), session));
+                }
+
+                String username = authDAO.getUsername(connect.getAuthString());
+                String color = null;
+                if (gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)) {
+                    color = "White";
+                }
+                if (gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)) {
+                    color = "Black";
+                }
+                Notification joined;
+                if (color == null) {
+                    joined = new Notification(username + " joined the game as an observer.");
+                } else {
+                    joined = new Notification(username + " joined the game as " + color + ".");
+                }
+                sendToAllOthers(new Gson().toJson(joined), connect.getGameID(), connect.getAuthString());
+
+                LoadGame load;
+                load = new LoadGame(gameDAO.getGame(connect.getGameID()).game());
+                sendToMe(new Gson().toJson(load), connect.getGameID(), connect.getAuthString());
+            }
 
         }
         catch (Exception e){
@@ -87,27 +105,84 @@ public class WebsocketHandler {
         }
     }
 
-    private void leave(String msg){}
+    private void leave(String msg){
+        System.out.println("In leave");
+        /*try{
+            SqlAuthDAO authDAO = new SqlAuthDAO();
+            SqlGameDAO gameDAO = new SqlGameDAO();
+            Leave leave = new Gson().fromJson(msg, Leave.class);
+            GameData currentGame = gameDAO.getGame(leave.getGameID());
+
+            if(gameDAO.getGame(leave.getGameID()) != null){
+                String note = authDAO.getUsername(leave.getAuthString()) + " left the game";
+                Notification notification = new Notification(note);
+
+                if(currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
+                }
+                if(currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
+                }
+
+                sendToAllOthers(new Gson().toJson(notification), leave.getGameID(), leave.getAuthString());
+
+                Person p = null;
+                for(Person person : connections.get(leave.getGameID())){
+                    if(person.authString.equals(leave.getAuthString())){
+                        p = person;
+                    }
+                }
+                connections.get(leave.getGameID()).remove(p);
+
+            }
+        }
+        catch (Exception e){
+            System.out.println("Websocket messages failed to send in the 'lenve' method");
+            e.printStackTrace();
+        }*/
+
+    }
+
 
     private void sendToAllOthers(String msg, int gameID, String authString) throws Exception{
+        ArrayList<Person> toRemove=new ArrayList<>();
         for(Person person : connections.get(gameID)){
             if(!person.authString.equals(authString)){
-                person.session.getRemote().sendString(msg);
+                if(person.session.isOpen()) {
+                    person.session.getRemote().sendString(msg);
+                }
+                else{
+                    toRemove.add(person);
+                }
             }
+        }
+        for(Person person : toRemove){
+            connections.get(gameID).remove(person);
         }
     }
 
     private void sendToAll(String msg, int gameID) throws Exception{
+        ArrayList<Person> toRemove=new ArrayList<>();
         for(Person person : connections.get(gameID)){
-            person.session.getRemote().sendString(msg);
+            if(person.session.isOpen()) {
+                person.session.getRemote().sendString(msg);
+            }
+            else{
+                toRemove.add(person);
+            }
+        }
+        for(Person person : toRemove){
+            connections.get(gameID).remove(person);
         }
     }
 
     private void sendToMe(String msg, int gameID, String authString) throws Exception{
         for(Person person : connections.get(gameID)){
             if(person.authString.equals(authString)){
-                person.session.getRemote().sendString(msg);
-                break;
+                if(person.session.isOpen()) {
+                    person.session.getRemote().sendString(msg);
+                    break;
+                }
             }
         }
     }

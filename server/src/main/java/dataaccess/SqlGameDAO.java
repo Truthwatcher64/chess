@@ -28,11 +28,13 @@ public class SqlGameDAO implements GameDAO{
 
     @Override
     public int addGame(String gameName) throws DataAccessException {
-        int temp=0;
+        ChessGame game = new ChessGame();
+        String gameJ = new Gson().toJson(game);
         DatabaseManager databaseManager= new DatabaseManager();
         try(Connection conn=databaseManager.getConnection()){
-            try(var preparedStatement = conn.prepareStatement("INSERT INTO "+TABLENAME+" (name) VALUES(?);")){
+            try(var preparedStatement = conn.prepareStatement("INSERT INTO "+TABLENAME+" (name, gameJSON) VALUES(? , ?);")){
                 preparedStatement.setString(1, gameName);
+                preparedStatement.setString(2, gameJ);
                 preparedStatement.executeUpdate();
             }
             catch (SQLException e){

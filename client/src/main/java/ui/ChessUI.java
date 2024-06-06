@@ -2,17 +2,19 @@ package ui;
 
 import com.google.gson.Gson;
 import websocket.commands.Leave;
+import websocket.commands.Resign;
 
 import java.util.Scanner;
 
 public class ChessUI {
 
     public ChessUI(String authString, int gameNum, WebsocketClient webConnect){
-        help();
+        showMenu();
         new ChessBoardConsole().printBoard();
         this.authString=authString;
         this.webConnect=webConnect;
         this.gameNum=gameNum;
+
 
     }
 
@@ -86,6 +88,7 @@ public class ChessUI {
     private void leave(){
         try {
             webConnect.send(new Gson().toJson(new Leave(authString, gameNum)));
+            //webConnect.session.close();
             isRunning = false;
         }
         catch (Exception e){
@@ -99,7 +102,14 @@ public class ChessUI {
     }
 
     private void resign(){
-
+        try{
+            webConnect.send(new Gson().toJson(new Resign(authString, gameNum)));
+            //webConnect.session.close();
+            isRunning = false;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void highlight(){

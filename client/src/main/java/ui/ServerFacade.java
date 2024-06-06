@@ -1,5 +1,6 @@
 package ui;
 
+import result.ListGamesResult;
 import result.LoginResult;
 import result.RegisterResult;
 import com.google.gson.Gson;
@@ -186,8 +187,8 @@ public class ServerFacade {
         // Output the response body
         try (InputStream respBody = http.getInputStream()) {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-            List temp = new Gson().fromJson(inputStreamReader, List.class);
-            return temp;
+            ListGamesResult temp = new Gson().fromJson(inputStreamReader, ListGamesResult.class);
+            return temp.getGame();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;

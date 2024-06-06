@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import model.GameData;
 import websocket.commands.Connect;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class PostLoginUI {
     private boolean isRunning;
     private String username;
     private String authString;
-    private List<GameData> localGames;
+    private ArrayList<GameData> localGames;
     public PostLoginUI(String username, String authString) {
         this.username=username;
         this.authString=authString;
@@ -31,7 +32,7 @@ public class PostLoginUI {
             System.out.println("[4] List Games");
             System.out.println("[5] Join Game");
             System.out.println("[6] Join Observer");
-            System.out.println("\n");
+            System.out.println();
             input=Integer.parseInt(readLine(true, 6));
             switch (input) {
                 case 1 -> help();
@@ -109,9 +110,18 @@ public class PostLoginUI {
         //list games no return
         try {
             updateLocalGames();
-            for(GameData game : localGames){
-                System.out.println();
+            if(localGames == null || localGames.isEmpty()){
+                System.out.println("No Games Created");
             }
+            else{
+                int count = 1;
+                for(GameData game : localGames){
+                    System.out.println("["+count+"] "+game.gameName() + " - White: " + game.whiteUsername()+", Black: "+ game.blackUsername());
+                    count++;
+                }
+            }
+            System.out.println();
+
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -124,22 +134,24 @@ public class PostLoginUI {
             if(gameNum == -1){
                 return;
             }
-            //FIXME link this to the list rather than GameID
+            gameNum--;
             System.out.println("Enter what color you will play as:");
             String color = readLine(false, -1);
-            if(!color.equalsIgnoreCase("white") || !color.equalsIgnoreCase("black")){
+            if(color != null && !color.equalsIgnoreCase("white") && !color.equalsIgnoreCase("black" )){
                 throw new Exception();
             }
+            updateLocalGames();
+            int realGameID = localGames.get(gameNum).gameID();
 
             //Changes the database
-            new ServerFacade().joinGame(authString, gameNum, username, color);
+            new ServerFacade().joinGame(authString, realGameID, username, color);
 
             //Connects websocket
             WebsocketClient webConnect = new WebsocketClient();
-            webConnect.send(new Gson().toJson(new Connect(authString, gameNum)));
+            webConnect.send(new Gson().toJson(new Connect(authString, realGameID)));
 
             //Prints out the chessboard and runs the actual game
-            new ChessUI(authString, gameNum, webConnect);
+            new ChessUI(authString, realGameID, webConnect);
 
         }
         catch(Exception e){
@@ -154,7 +166,9 @@ public class PostLoginUI {
         try {
             System.out.println("Enter the Number for the Game or -1 to return to the menu:");
             int gameNum = Integer.parseInt(readLine(true, 9999));
-            //FIXME link this to the list rather than GameID
+            gameNum--;
+            updateLocalGames();
+            int realGameID = localGames.get(gameNum).gameID();
             System.out.println("Enter what color you will play as:");
             String color = null;
 
@@ -174,7 +188,7 @@ public class PostLoginUI {
 
     private void updateLocalGames(){
         try {
-            localGames = new ServerFacade().listGames(authString);
+            localGames = (ArrayList<GameData>) new ServerFacade().listGames(authString);
         }
         catch (Exception e){
             System.out.println(e.getMessage());

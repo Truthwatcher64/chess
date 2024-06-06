@@ -150,6 +150,12 @@ public class ChessBoardConsole {
 
     public static String getPiece(int pos){
         position++;
+        if(pieces.get(position).contains("BLACK")){
+            System.out.println(SET_TEXT_COLOR_BLACK);
+        }
+        if(pieces.get(position).contains("WHITE")){
+            System.out.println(SET_TEXT_COLOR_WHITE);
+        }
         return pieces.get(pos);
 
     }
