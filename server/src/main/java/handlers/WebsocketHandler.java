@@ -42,10 +42,10 @@ public class WebsocketHandler {
     public void onMessage(Session session, String message) throws Exception{
         UserGameCommand command=new Gson().fromJson(message, UserGameCommand.class);
         switch (command.getCommandType()){
-            case UserGameCommand.CommandType.CONNECT: {
+            case UserGameCommand.CommandType.CONNECT -> {
                 connect(session, message);
             }
-            case UserGameCommand.CommandType.LEAVE: {
+            case UserGameCommand.CommandType.LEAVE -> {
                 leave(message);
             }
         }
@@ -106,41 +106,39 @@ public class WebsocketHandler {
     }
 
     private void leave(String msg){
-        System.out.println("In leave");
-        /*try{
+        try {
             SqlAuthDAO authDAO = new SqlAuthDAO();
             SqlGameDAO gameDAO = new SqlGameDAO();
             Leave leave = new Gson().fromJson(msg, Leave.class);
             GameData currentGame = gameDAO.getGame(leave.getGameID());
 
-            if(gameDAO.getGame(leave.getGameID()) != null){
+            if (gameDAO.getGame(leave.getGameID()) != null) {
+                System.out.println("Good");
                 String note = authDAO.getUsername(leave.getAuthString()) + " left the game";
                 Notification notification = new Notification(note);
 
-                if(currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                if (currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
                     gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
                 }
-                if(currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                if (currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
                     gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
                 }
 
                 sendToAllOthers(new Gson().toJson(notification), leave.getGameID(), leave.getAuthString());
 
                 Person p = null;
-                for(Person person : connections.get(leave.getGameID())){
-                    if(person.authString.equals(leave.getAuthString())){
+                for (Person person : connections.get(leave.getGameID())) {
+                    if (person.authString.equals(leave.getAuthString())) {
                         p = person;
                     }
                 }
                 connections.get(leave.getGameID()).remove(p);
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Websocket messages failed to send in the 'lenve' method");
             e.printStackTrace();
-        }*/
-
+        }
     }
 
 
