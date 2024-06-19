@@ -137,11 +137,34 @@ public class SqlGameDAO implements GameDAO{
 
     @Override
     public void removePlayer(String username, ChessGame.TeamColor color, int gameID) throws DataAccessException {
-
+        DatabaseManager databaseManager = new DatabaseManager();
+        try(Connection conn = databaseManager.getConnection()){
+            if(color== ChessGame.TeamColor.WHITE) {
+                try (var preparedStatement = conn.prepareStatement("UPDATE " + TABLENAME + " SET `whiteUsername`= NULL WHERE `gameID`="+gameID+";")) {
+                    preparedStatement.executeUpdate();
+                }
+            }
+            else{
+                try (var preparedStatement = conn.prepareStatement("UPDATE " + TABLENAME + " SET `blackUsername`= NULL WHERE `gameID`="+gameID+";")) {
+                    preparedStatement.executeUpdate();
+                }
+            }
+        }
+        catch (SQLException e){
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     @Override
     public void updateGame(String gameJson, int gameID) throws DataAccessException {
-
+        DatabaseManager databaseManager = new DatabaseManager();
+        try(Connection conn = databaseManager.getConnection()){
+            try(var preparedStatement = conn.prepareStatement("UPDATE "+TABLENAME+" SET `gameJSON`=\""+gameJson+"\" WHERE `gameID`="+gameID+";")){
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException e){
+            throw new DataAccessException(e.getMessage());
+        }
     }
 }
