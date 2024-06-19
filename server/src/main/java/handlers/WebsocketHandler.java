@@ -138,6 +138,7 @@ public class WebsocketHandler {
                 for (Person person : connections.get(leave.getGameID())) {
                     if (person.authString.equals(leave.getAuthString())) {
                         p = person;
+                        break;
                     }
                 }
                 connections.get(leave.getGameID()).remove(p);
@@ -156,6 +157,9 @@ public class WebsocketHandler {
             SqlGameDAO gameDAO = new SqlGameDAO();
 
             GameData currentGame = gameDAO.getGame(makeMove.getGameID());
+            if(authDAO.getUsername(makeMove.getAuthString()) == null){
+                throw new DataAccessException("Error: Unauthorized");
+            }
 
             currentGame.game().makeMove(makeMove.getMove());
             gameDAO.updateGame(new Gson().toJson(currentGame), makeMove.getGameID());
@@ -166,7 +170,7 @@ public class WebsocketHandler {
 
         }
         catch (DataAccessException e){
-            Error error = new Error("Invalid Game");
+            Error error = new Error("Invalid GameID or User Unauthorized");
             try{
                 sendToMe(new Gson().toJson(error), makeMove.getGameID(), makeMove.getAuthString());
             }
@@ -185,9 +189,15 @@ public class WebsocketHandler {
                 ex.printStackTrace();
             }
         }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
+        catch (Exception e){
+            Error error = new Error(e.getMessage());
+            try {
+                sendToMe(new Gson().toJson(error), makeMove.getGameID(), makeMove.getAuthString());
+            }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
         }
 
 
