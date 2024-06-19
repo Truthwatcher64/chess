@@ -1,6 +1,7 @@
 package handlers;
 
 import chess.ChessGame;
+import chess.InvalidMoveException;
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import dataaccess.DatabaseManager;
@@ -12,6 +13,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import websocket.commands.Connect;
 import websocket.commands.Leave;
+import websocket.commands.MakeMove;
 import websocket.commands.UserGameCommand;
 import websocket.messages.Error;
 import websocket.messages.LoadGame;
@@ -47,6 +49,9 @@ public class WebsocketHandler {
             }
             case UserGameCommand.CommandType.LEAVE -> {
                 leave(message);
+            }
+            case UserGameCommand.CommandType.MAKE_MOVE -> {
+                makeMove(message);
             }
         }
     }
@@ -116,12 +121,15 @@ public class WebsocketHandler {
                 System.out.println("Good");
                 String note = authDAO.getUsername(leave.getAuthString()) + " left the game";
                 Notification notification = new Notification(note);
-
-                if (currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
-                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
+                if (currentGame.whiteUsername() != null) {
+                    if (currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                        gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
+                    }
                 }
-                if (currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
-                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
+                if (currentGame.blackUsername() != null) {
+                    if (currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                        gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
+                    }
                 }
 
                 sendToAllOthers(new Gson().toJson(notification), leave.getGameID(), leave.getAuthString());
@@ -139,6 +147,50 @@ public class WebsocketHandler {
             System.out.println("Websocket messages failed to send in the 'lenve' method");
             e.printStackTrace();
         }
+    }
+
+    private void makeMove(String msg){
+        MakeMove makeMove = new Gson().fromJson(msg, MakeMove.class);
+        try {
+            SqlAuthDAO authDAO = new SqlAuthDAO();
+            SqlGameDAO gameDAO = new SqlGameDAO();
+
+            GameData currentGame = gameDAO.getGame(makeMove.getGameID());
+
+            currentGame.game().makeMove(makeMove.getMove());
+            gameDAO.updateGame(new Gson().toJson(currentGame), makeMove.getGameID());
+
+            LoadGame loadGame = new LoadGame(currentGame.game());
+
+            sendToAll(new Gson().toJson(loadGame), currentGame.gameID());
+
+        }
+        catch (DataAccessException e){
+            Error error = new Error("Invalid Game");
+            try{
+                sendToMe(new Gson().toJson(error), makeMove.getGameID(), makeMove.getAuthString());
+            }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        catch (InvalidMoveException e) {
+            Error error = new Error("Invalid Move");
+            try {
+                sendToMe(new Gson().toJson(error), makeMove.getGameID(), makeMove.getAuthString());
+            }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+
     }
 
 
