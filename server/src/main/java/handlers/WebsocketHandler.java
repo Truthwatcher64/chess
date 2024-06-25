@@ -84,12 +84,14 @@ public class WebsocketHandler {
 
                 String username = authDAO.getUsername(connect.getAuthString());
                 String color = null;
-                if (gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)) {
+                if (gameDAO.getGame(connect.getGameID()).whiteUsername() != null && gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)) {
                     color = "White";
                 }
-                if (gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)) {
+                if (gameDAO.getGame(connect.getGameID()).blackUsername() != null && gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)) {
                     color = "Black";
                 }
+
+                //send to other members
                 Notification joined;
                 if (color == null) {
                     joined = new Notification(username + " joined the game as an observer.");
@@ -98,6 +100,7 @@ public class WebsocketHandler {
                 }
                 sendToAllOthers(new Gson().toJson(joined), connect.getGameID(), connect.getAuthString());
 
+                //send to me
                 LoadGame load;
                 load = new LoadGame(gameDAO.getGame(connect.getGameID()).game());
                 sendToMe(new Gson().toJson(load), connect.getGameID(), connect.getAuthString());
@@ -105,6 +108,7 @@ public class WebsocketHandler {
 
         }
         catch (Exception e){
+            System.out.println("Dead");
             System.err.println("Websocket messages failed to send in the `Connect` Method.");
             e.printStackTrace();
         }
@@ -156,6 +160,12 @@ public class WebsocketHandler {
             GameData currentGame = gameDAO.getGame(makeMove.getGameID());
             if(authDAO.getUsername(makeMove.getAuthString()) == null){
                 throw new DataAccessException("Error: Unauthorized");
+            }
+            if(gameDAO.getGame(makeMove.getGameID()).whiteUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
+                throw new Exception("Observer cannot make moves");
+            }
+            else if(gameDAO.getGame(makeMove.getGameID()).blackUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
+                throw new Exception("Observer cannot make moves");
             }
 
             currentGame.game().makeMove(makeMove.getMove());
