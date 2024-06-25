@@ -159,7 +159,7 @@ public class SqlGameDAO implements GameDAO{
     public void updateGame(String gameJson, int gameID) throws DataAccessException {
         DatabaseManager databaseManager = new DatabaseManager();
         try(Connection conn = databaseManager.getConnection()){
-            try(var preparedStatement = conn.prepareStatement("UPDATE "+TABLENAME+" SET `gameJSON`=\""+gameJson+"\" WHERE `gameID`="+gameID+";")){
+            try(var preparedStatement = conn.prepareStatement("UPDATE "+TABLENAME+" SET `gameJSON`=\'"+gameJson+"\' WHERE `gameID`="+gameID+";")){
                 preparedStatement.executeUpdate();
             }
         }

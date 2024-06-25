@@ -158,13 +158,17 @@ public class WebsocketHandler {
             SqlGameDAO gameDAO = new SqlGameDAO();
 
             GameData currentGame = gameDAO.getGame(makeMove.getGameID());
+            if(!currentGame.game().isGameState()){
+                throw new Exception("Game is Over");
+            }
+
             if(authDAO.getUsername(makeMove.getAuthString()) == null){
                 throw new DataAccessException("Error: Unauthorized");
             }
-            if(gameDAO.getGame(makeMove.getGameID()).whiteUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
+            if(!gameDAO.getGame(makeMove.getGameID()).whiteUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
                 throw new Exception("Observer cannot make moves");
             }
-            else if(gameDAO.getGame(makeMove.getGameID()).blackUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
+            else if(!gameDAO.getGame(makeMove.getGameID()).blackUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
                 throw new Exception("Observer cannot make moves");
             }
 
@@ -215,6 +219,12 @@ public class WebsocketHandler {
         try{
             SqlAuthDAO authDAO = new SqlAuthDAO();
             SqlGameDAO gameDAO = new SqlGameDAO();
+            GameData gamedata = gameDAO.getGame(resign.getGameID());
+
+            if(!gamedata.game().isGameState()){
+                throw new Exception("Game is Over");
+            }
+
             String name = authDAO.getUsername(resign.getAuthString());
             if(name == null || name.isBlank()){
                 throw new Exception("Error: Unauthorized");
@@ -223,7 +233,6 @@ public class WebsocketHandler {
             sendToAll(new Gson().toJson(notification), resign.getGameID());
 
             //Change game state
-            GameData gamedata = gameDAO.getGame(resign.getGameID());
             gamedata.game().setGameState(false);
             String gameJSON = new Gson().toJson(gamedata.game());
             gameDAO.updateGame(gameJSON, resign.getGameID());
