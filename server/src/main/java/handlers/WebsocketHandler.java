@@ -229,6 +229,11 @@ public class WebsocketHandler {
             if(name == null || name.isBlank()){
                 throw new Exception("Error: Unauthorized");
             }
+
+            if(!gamedata.whiteUsername().equals(name) || !gamedata.blackUsername().equals(name)){
+                throw new Exception("Observer cannot resign");
+            }
+
             Notification notification = new Notification(name+" has resigned");
             sendToAll(new Gson().toJson(notification), resign.getGameID());
 
