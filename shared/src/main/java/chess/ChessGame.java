@@ -14,7 +14,7 @@ import java.util.Set;
 public class ChessGame {
 
     ChessBoard fullBoard;
-    TeamColor activecColor;
+    TeamColor activeColor;
     Set<ChessPiece> whitePieces;
     Set<ChessPiece> blackPieces;
     private ChessPiece lastPiece;
@@ -46,7 +46,7 @@ public class ChessGame {
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        return activecColor;
+        return activeColor;
     }
 
     /**
@@ -55,7 +55,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        this.activecColor=team;
+        this.activeColor = team;
     }
 
     /**
@@ -180,7 +180,7 @@ public class ChessGame {
 
         doPawnStuff(end, move);
 
-        if (isInCheck(activecColor)) {
+        if (isInCheck(activeColor)) {
             fullBoard.addPiece(end, endPiece);
             fullBoard.addPiece(start, piece);
             throw new InvalidMoveException("Moved into check, or didn't move out of check");
@@ -190,7 +190,7 @@ public class ChessGame {
     }
 
     private void endOfTurnStuff(ChessMove move){
-        if (activecColor == TeamColor.WHITE)
+        if (activeColor == TeamColor.WHITE)
             setTeamTurn(TeamColor.BLACK);
         else{
             setTeamTurn(TeamColor.WHITE);
@@ -218,7 +218,7 @@ public class ChessGame {
             throw new InvalidMoveException("No Piece on Start Location");
         }
 
-        if (fullBoard.getPiece(move.getStartPosition()).getTeamColor() != activecColor) {
+        if (fullBoard.getPiece(move.getStartPosition()).getTeamColor() != activeColor) {
             throw new InvalidMoveException("Piece at start is opponents piece");
         }
 
@@ -243,16 +243,16 @@ public class ChessGame {
             }
         }
 
-        if(activecColor==TeamColor.WHITE) {
+        if(activeColor ==TeamColor.WHITE) {
             if (end.getRow() == 8 && fullBoard.getPiece(end).getPieceType() == ChessPiece.PieceType.PAWN) {
                 if (move.getPromotionPiece() == ChessPiece.PieceType.QUEEN) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.QUEEN));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.QUEEN));
                 } else if (move.getPromotionPiece() == ChessPiece.PieceType.BISHOP) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.BISHOP));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.BISHOP));
                 } else if (move.getPromotionPiece() == ChessPiece.PieceType.ROOK) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.ROOK));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.ROOK));
                 } else {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.KNIGHT));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.KNIGHT));
                 }
 
             }
@@ -260,13 +260,13 @@ public class ChessGame {
         else{
             if (end.getRow() == 1 && fullBoard.getPiece(end).getPieceType() == ChessPiece.PieceType.PAWN) {
                 if (move.getPromotionPiece() == ChessPiece.PieceType.QUEEN) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.QUEEN));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.QUEEN));
                 } else if (move.getPromotionPiece() == ChessPiece.PieceType.BISHOP) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.BISHOP));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.BISHOP));
                 } else if (move.getPromotionPiece() == ChessPiece.PieceType.ROOK) {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.ROOK));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.ROOK));
                 } else {
-                    fullBoard.addPiece(end, new ChessPiece(activecColor, ChessPiece.PieceType.KNIGHT));
+                    fullBoard.addPiece(end, new ChessPiece(activeColor, ChessPiece.PieceType.KNIGHT));
                 }
             }
         }

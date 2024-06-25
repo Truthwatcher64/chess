@@ -178,7 +178,7 @@ public class WebsocketHandler {
             }
 
             currentGame.game().makeMove(makeMove.getMove());
-            gameDAO.updateGame(new Gson().toJson(currentGame), makeMove.getGameID());
+            gameDAO.updateGame(new Gson().toJson(currentGame.game()), makeMove.getGameID());
 
             LoadGame loadGame = new LoadGame(currentGame.game());
 
