@@ -48,7 +48,7 @@ public class WebsocketHandler {
                 leave(message);
             }
             case UserGameCommand.CommandType.MAKE_MOVE -> {
-                makeMove(message);
+                makeMove(message, session);
             }
             case UserGameCommand.CommandType.RESIGN -> {
                 resign(message);
@@ -151,7 +151,7 @@ public class WebsocketHandler {
         }
     }
 
-    private void makeMove(String msg){
+    private void makeMove(String msg, Session session){
         MakeMove makeMove = new Gson().fromJson(msg, MakeMove.class);
         try {
             SqlAuthDAO authDAO = new SqlAuthDAO();
@@ -164,7 +164,7 @@ public class WebsocketHandler {
 
             String name = authDAO.getUsername(makeMove.getAuthString());
 
-            if(name == null){
+            if(name == null || name.isEmpty()){
                 throw new DataAccessException("Error: Unauthorized");
             }
             if(!name.equals(currentGame.whiteUsername()) && !name.equals(currentGame.blackUsername())){
@@ -185,7 +185,7 @@ public class WebsocketHandler {
         catch (DataAccessException e){
             Error error = new Error("Invalid GameID or User Unauthorized");
             try{
-                sendToMe(new Gson().toJson(error), makeMove.getGameID(), makeMove.getAuthString());
+                session.getRemote().sendString(new Gson().toJson(error));
             }
             catch (Exception ex){
                 System.out.println(ex.getMessage());
