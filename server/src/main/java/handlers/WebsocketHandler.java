@@ -117,10 +117,10 @@ public class WebsocketHandler {
                 String note = authDAO.getUsername(leave.getAuthString()) + " left the game";
                 Notification notification = new Notification(note);
 
-                if (currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                if (currentGame.whiteUsername() != null && currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
                     gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
                 }
-                if (currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                if (currentGame.blackUsername() != null && currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
                     gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
                 }
 
@@ -136,7 +136,7 @@ public class WebsocketHandler {
 
             }
         } catch (Exception e) {
-            System.out.println("Websocket messages failed to send in the 'lenve' method");
+            System.out.println("Websocket messages failed to send in the 'leave' method");
             e.printStackTrace();
         }
     }
