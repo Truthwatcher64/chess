@@ -22,6 +22,16 @@ public class ChessGame {
     private ChessMove enPassMove;
     private ArrayList<ChessMove> allGameMoves;
 
+    public boolean isGameState() {
+        return gameState;
+    }
+
+    public void setGameState(boolean gameState) {
+        this.gameState = gameState;
+    }
+
+    private boolean gameState;
+
     public ChessGame() {
         fullBoard=new ChessBoard();
         fullBoard.resetBoard();
@@ -29,6 +39,7 @@ public class ChessGame {
         lastMove=new ChessMove(new ChessPosition(-1, -1), new ChessPosition(-1, -1), null);
         lastPiece=new ChessPiece(null, ChessPiece.PieceType.PAWN);
         allGameMoves=new ArrayList<ChessMove>();
+        gameState = true;
     }
 
     /**
@@ -302,7 +313,7 @@ public class ChessGame {
         if(!allMoves.isEmpty()){
             return false;
         }
-
+        gameState = false;
         return true;
 
     }
@@ -324,6 +335,7 @@ public class ChessGame {
             return false;
         }
 
+        gameState = false;
         return true;
     }
 

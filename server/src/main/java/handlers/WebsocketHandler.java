@@ -11,10 +11,7 @@ import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import websocket.commands.Connect;
-import websocket.commands.Leave;
-import websocket.commands.MakeMove;
-import websocket.commands.UserGameCommand;
+import websocket.commands.*;
 import websocket.messages.Error;
 import websocket.messages.LoadGame;
 import websocket.messages.Notification;
@@ -52,6 +49,9 @@ public class WebsocketHandler {
             }
             case UserGameCommand.CommandType.MAKE_MOVE -> {
                 makeMove(message);
+            }
+            case UserGameCommand.CommandType.RESIGN -> {
+                resign(message);
             }
         }
     }
@@ -208,6 +208,36 @@ public class WebsocketHandler {
         }
 
 
+    }
+
+    private void resign(String msg){
+        Resign resign = new Gson().fromJson(msg, Resign.class);
+        try{
+            SqlAuthDAO authDAO = new SqlAuthDAO();
+            SqlGameDAO gameDAO = new SqlGameDAO();
+            String name = authDAO.getUsername(resign.getAuthString());
+            if(name == null || name.isBlank()){
+                throw new Exception("Error: Unauthorized");
+            }
+            Notification notification = new Notification(name+" has resigned");
+            sendToAll(new Gson().toJson(notification), resign.getGameID());
+
+            //Change game state
+            GameData gamedata = gameDAO.getGame(resign.getGameID());
+            gamedata.game().setGameState(false);
+            String gameJSON = new Gson().toJson(gamedata.game());
+            gameDAO.updateGame(gameJSON, resign.getGameID());
+
+        }
+        catch (Exception e){
+            Error error = new Error(e.getMessage());
+            try {
+                sendToMe(new Gson().toJson(error), resign.getGameID(), resign.getAuthString());
+            }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 
 
