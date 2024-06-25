@@ -121,15 +121,12 @@ public class WebsocketHandler {
                 System.out.println("Good");
                 String note = authDAO.getUsername(leave.getAuthString()) + " left the game";
                 Notification notification = new Notification(note);
-                if (currentGame.whiteUsername() != null) {
-                    if (currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
-                        gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
-                    }
+
+                if (currentGame.whiteUsername() != null && currentGame.whiteUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.WHITE, leave.getGameID());
                 }
-                if (currentGame.blackUsername() != null) {
-                    if (currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
-                        gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
-                    }
+                if (currentGame.blackUsername() != null && currentGame.blackUsername().equals(authDAO.getUsername(leave.getAuthString()))) {
+                    gameDAO.removePlayer(authDAO.getUsername(leave.getAuthString()), ChessGame.TeamColor.BLACK, leave.getGameID());
                 }
 
                 sendToAllOthers(new Gson().toJson(notification), leave.getGameID(), leave.getAuthString());
@@ -145,7 +142,7 @@ public class WebsocketHandler {
 
             }
         } catch (Exception e) {
-            System.out.println("Websocket messages failed to send in the 'lenve' method");
+            System.out.println("Websocket messages failed to send in the 'leave' method");
             e.printStackTrace();
         }
     }
