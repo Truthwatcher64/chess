@@ -162,13 +162,12 @@ public class WebsocketHandler {
                 throw new Exception("Game is Over");
             }
 
-            if(authDAO.getUsername(makeMove.getAuthString()) == null){
+            String name = authDAO.getUsername(makeMove.getAuthString());
+
+            if(name == null){
                 throw new DataAccessException("Error: Unauthorized");
             }
-            if(!gameDAO.getGame(makeMove.getGameID()).whiteUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
-                throw new Exception("Observer cannot make moves");
-            }
-            else if(!gameDAO.getGame(makeMove.getGameID()).blackUsername().equals(authDAO.getUsername(makeMove.getAuthString()))){
+            if(!name.equals(currentGame.whiteUsername()) && !name.equals(currentGame.blackUsername())){
                 throw new Exception("Observer cannot make moves");
             }
 
@@ -178,6 +177,9 @@ public class WebsocketHandler {
             LoadGame loadGame = new LoadGame(currentGame.game());
 
             sendToAll(new Gson().toJson(loadGame), currentGame.gameID());
+
+            Notification notification = new Notification(name + " made the move " + makeMove.getMove());
+            sendToAllOthers(new Gson().toJson(notification), makeMove.getGameID(), makeMove.getAuthString());
 
         }
         catch (DataAccessException e){
@@ -230,7 +232,7 @@ public class WebsocketHandler {
                 throw new Exception("Error: Unauthorized");
             }
 
-            if(!gamedata.whiteUsername().equals(name) || !gamedata.blackUsername().equals(name)){
+            if(!gamedata.whiteUsername().equals(name) && !gamedata.blackUsername().equals(name)){
                 throw new Exception("Observer cannot resign");
             }
 
