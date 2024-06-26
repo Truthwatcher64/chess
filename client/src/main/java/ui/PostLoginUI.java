@@ -172,8 +172,9 @@ public class PostLoginUI {
             System.out.println("Enter what color you will play as:");
             String color = null;
 
-            //Changes the database
-            new ServerFacade().joinGame(authString, gameNum, username, color);
+            WebsocketClient client = new WebsocketClient();
+            client.send(new Gson().toJson(new Connect(authString, realGameID)));
+
 
             //Prints out the chessboard
             new ChessBoardDraw();

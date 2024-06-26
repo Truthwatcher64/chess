@@ -10,12 +10,29 @@ public class ChessUI {
 
     public ChessUI(String authString, int gameNum, WebsocketClient webConnect){
         showMenu();
-        new ChessBoardConsole().printBoard();
+        //new ChessBoardConsole().printBoard();
         this.authString=authString;
         this.webConnect=webConnect;
         this.gameNum=gameNum;
 
 
+    }
+
+    private void help(){
+        System.out.println("White pieces: "+EscapeSequences.WHITE_KING +" "+EscapeSequences.WHITE_ROOK+" "+EscapeSequences.WHITE_PAWN);
+        System.out.println("Black pieces: "+EscapeSequences.BLACK_PAWN +" "+EscapeSequences.BLACK_QUEEN+" "+EscapeSequences.BLACK_BISHOP);
+        System.out.println("[1] Help: Prints the help menu." );
+        System.out.println("[2] Make Move: Enter your move with a starting position and ending position.\n" +
+                "\tExample g1 f3 or e2 e4. Use only lower case letters.");
+        System.out.println("[3] Highlight Moves: Highlights all the possible moves from a starting position.\n" +
+                "\tStarting position is the format column/row. Example: e3 or f5. Use only lower case letters.");
+        System.out.println("[4] Redraw: Refreshes the board. Will remove any highlighted squares.\n" +
+                "\tIf the board has a weird issue print run this command to reset it.");
+        System.out.println("[5] Print record of all game moves.\n" +
+                "\tThis feature is not not yet implemented");
+        System.out.println("[6] Resign: Resign the game as a loss.");
+        System.out.println("[7] Leave: Leave the game. You will also be removed as the current player in the game \n" +
+                "\tand another person can take your spot.");
     }
 
     private boolean isRunning;
@@ -28,14 +45,14 @@ public class ChessUI {
         int input;
         while(isRunning){
             //Output the options
-            System.out.println("Enter the number for the command");
+            System.out.println("Enter an option");
             System.out.println("[1] Help");
-            System.out.println("[2] Logout");
-            System.out.println("[3] Create Game");
-            System.out.println("[4] List Games");
-            System.out.println("[5] Join Game");
-            System.out.println("[6] Join Observer");
-            System.out.println("\n");
+            System.out.println("[2] Make Move");
+            System.out.println("[3] Highlight Moves");
+            System.out.println("[4] Redraw");
+            System.out.println("[5] Game Record");
+            System.out.println("[6] Resign");
+            System.out.println("[7] Leave\n");
             input=Integer.parseInt(readLine(true, 6));
             switch (input) {
                 case 1 -> help();
@@ -71,28 +88,24 @@ public class ChessUI {
         return null;
     }
 
-    private void help(){
-        System.out.println("[1] Help");
-        System.out.println("[2] Redraw: Redraw the chess board.");
-        System.out.println("[3] Leave: Leave the chess game.");
-        System.out.println("[4] Make Move: Make a move on your turn.");
-        System.out.println("[5] Resign: Forfeit the game.");
-        System.out.println("[6] Highlight: Highlight the possible moves \n\tgiven a starting position");
-        System.out.println("\n");
-    }
-
     private void redraw(){
 
     }
 
     private void leave(){
-        try {
-            webConnect.send(new Gson().toJson(new Leave(authString, gameNum)));
-            //webConnect.session.close();
-            isRunning = false;
+        System.out.println("Are you sure you want to exit? [y/n]");
+        String temp=readLine(false, -1);
+        while(!temp.equalsIgnoreCase("y") && !temp.equalsIgnoreCase("n")){
+            System.out.println("Enter 'y' for yes, and 'n' for no");
+            temp=readLine(false, -1);
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+        if(temp.equalsIgnoreCase("y")) {
+            try {
+                webConnect.send(new Gson().toJson(new Leave(authString, gameNum)));
+                isRunning = false;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
     }
@@ -102,13 +115,19 @@ public class ChessUI {
     }
 
     private void resign(){
-        try{
-            webConnect.send(new Gson().toJson(new Resign(authString, gameNum)));
-            //webConnect.session.close();
-            isRunning = false;
+        System.out.println("Are you sure you want to resign? [y/n]");
+        String temp=readLine(false, -1);
+        while(!temp.equalsIgnoreCase("y") && !temp.equalsIgnoreCase("n")){
+            System.out.println("Enter 'y' for yes, and 'n' for no");
+            temp=readLine(false, -1);
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+        if(temp.equalsIgnoreCase("y")) {
+            try {
+                webConnect.send(new Gson().toJson(new Resign(authString, gameNum)));
+                isRunning = false;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
