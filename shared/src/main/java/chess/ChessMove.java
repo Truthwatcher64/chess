@@ -44,6 +44,14 @@ public class ChessMove {
         return promotion;
     }
 
+    public void setStartPosition(ChessPosition startPosition) {
+        this.startPosition = startPosition;
+    }
+
+    public void setEndPosition(ChessPosition endPosition) {
+        this.endPosition = endPosition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
