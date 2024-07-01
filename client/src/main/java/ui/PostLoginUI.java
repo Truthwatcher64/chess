@@ -129,6 +129,7 @@ public class PostLoginUI {
     }
     private void joinGame(){
         try {
+            updateLocalGames();
             System.out.println("Enter the Number for the Game or -1 to return to the menu:");
             int gameNum = Integer.parseInt(readLine(true, 9999));
             if(gameNum == -1){
@@ -140,18 +141,14 @@ public class PostLoginUI {
             if(color != null && !color.equalsIgnoreCase("white") && !color.equalsIgnoreCase("black" )){
                 throw new Exception();
             }
-            updateLocalGames();
             int realGameID = localGames.get(gameNum).gameID();
 
             //Changes the database
             new ServerFacade().joinGame(authString, realGameID, username, color);
 
-            //Connects websocket
-            WebsocketClient webConnect = new WebsocketClient();
-            webConnect.send(new Gson().toJson(new Connect(authString, realGameID)));
-
             //Prints out the chessboard and runs the actual game
-            new ChessUI(authString, realGameID, webConnect);
+            ChessUI client = new ChessUI(authString, color, realGameID);
+            client.send(new Gson().toJson(new Connect(authString, realGameID)));
 
         }
         catch(Exception e){
@@ -172,12 +169,9 @@ public class PostLoginUI {
             System.out.println("Enter what color you will play as:");
             String color = null;
 
-            WebsocketClient client = new WebsocketClient();
+            ChessUI client = new ChessUI(authString, null, realGameID);
             client.send(new Gson().toJson(new Connect(authString, realGameID)));
 
-
-            //Prints out the chessboard
-            new ChessBoardDraw();
 
         }
         catch(Exception e){

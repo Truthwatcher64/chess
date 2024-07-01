@@ -122,7 +122,7 @@ public class ServerFacade {
         http.addRequestProperty("Authorization", authString);
 
         // Write out the body
-        var body = Map.of("gameID", gameNum, "username", userName, "color", color);
+        var body = Map.of("gameID", gameNum, "userName", userName, "playerColor", color);
         try (var outputStream = http.getOutputStream()) {
             var jsonBody = new Gson().toJson(body);
             outputStream.write(jsonBody.getBytes());

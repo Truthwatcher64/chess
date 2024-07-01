@@ -21,7 +21,7 @@ public class ChessBoardDraw {
     public ChessBoardDraw(){
         whiteNum= new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         blackNum= new int[]{8, 7, 6, 5, 4, 3, 2, 1};
-        whiteChars= new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+        whiteChars= new char[]{'\u0041', '\u0042', '\u0043', '\u0044', '\u0045', '\u0046', '\u0047', '\u0048'};
         blackChars= new char[]{'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
     }
 
@@ -212,7 +212,7 @@ public class ChessBoardDraw {
         }
         //edge
         try {
-            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_16));
         } catch (Exception e) {
             e.printStackTrace();
         }
