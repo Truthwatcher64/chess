@@ -1,5 +1,7 @@
 package ui;
 
+import chess.ChessGame;
+
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Vector;
@@ -11,22 +13,27 @@ public class ChessBoardConsole {
     public static Vector<String> pieces=basicBoard();
 
     public static void main(String[] args) {
-        try {
-            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        pieces=basicBoard();
-        System.out.print(SET_BG_COLOR_PURPLE+" A "+RESET_BG_COLOR+"\n");
-        System.out.print(SET_BG_COLOR_BLUE+ " A "+RESET_BG_COLOR+"\n");
+        ChessBoardDraw draw = new ChessBoardDraw();
+        ChessGame game = new ChessGame();
 
+        draw.printBoard(game, "white", -1, -1);
 
-        printEmptyBoard();
-        System.out.println();
-        pieces=basicBoard();
-        pieces=reversePieces(pieces);
-        position=0;
-        printEmptyBoard();
+//        try {
+//            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        pieces=basicBoard();
+//        System.out.print(SET_BG_COLOR_PURPLE+" A "+RESET_BG_COLOR+"\n");
+//        System.out.print(SET_BG_COLOR_BLUE+ " A "+RESET_BG_COLOR+"\n");
+//
+//
+//        printEmptyBoard();
+//        System.out.println();
+//        pieces=basicBoard();
+//        pieces=reversePieces(pieces);
+//        position=0;
+//        printEmptyBoard();
     }
     public void printBoard(){
         printEmptyBoard();

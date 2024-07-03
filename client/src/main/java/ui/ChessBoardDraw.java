@@ -12,6 +12,7 @@ import static ui.EscapeSequences.*;
 public class ChessBoardDraw {
     public int position;
     public Vector<String> pieces;
+    public Vector<ChessPiece> chessPieces = new Vector<>();
     private ChessBoard board;
     private int[] whiteNum;
     private int[] blackNum;
@@ -21,12 +22,18 @@ public class ChessBoardDraw {
     public ChessBoardDraw(){
         whiteNum= new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         blackNum= new int[]{8, 7, 6, 5, 4, 3, 2, 1};
-        whiteChars= new char[]{'\u0041', '\u0042', '\u0043', '\u0044', '\u0045', '\u0046', '\u0047', '\u0048'};
+        whiteChars= new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         blackChars= new char[]{'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
     }
 
     public void printBoard(ChessGame game, String color, int rowHighlight, int columnHighlight){
-        board=(ChessBoard) game.getBoard();
+        System.out.print("\u001b");
+        board= game.getBoard();
+        for(int i=1; i<=8; i++){
+            for(int j=1; j<=8; j++){
+                chessPieces.add(board.getPiece(new ChessPosition(i, j)));
+            }
+        }
         //black
         if(color!=null && color.equalsIgnoreCase("black")) {
             position = 0;
@@ -64,26 +71,36 @@ public class ChessBoardDraw {
             if(piece==null){
                 piecesEscapeCodes.add(EMPTY);
             }
-            else if(piece.getTeamColor() == (ChessGame.TeamColor.WHITE)) {
-                switch (piece.getPieceType()){
-                    case PAWN -> piecesEscapeCodes.add(WHITE_PAWN);
-                    case ROOK -> piecesEscapeCodes.add(WHITE_ROOK);
-                    case KNIGHT -> piecesEscapeCodes.add(WHITE_KNIGHT);
-                    case BISHOP -> piecesEscapeCodes.add(WHITE_BISHOP);
-                    case KING -> piecesEscapeCodes.add(WHITE_KING);
-                    case QUEEN -> piecesEscapeCodes.add(WHITE_QUEEN);
-                }
-            }
-            else{
-                switch (piece.getPieceType()){
+            else {
+                switch (piece.getPieceType()) {
                     case PAWN -> piecesEscapeCodes.add(BLACK_PAWN);
                     case ROOK -> piecesEscapeCodes.add(BLACK_ROOK);
                     case KNIGHT -> piecesEscapeCodes.add(BLACK_KNIGHT);
                     case BISHOP -> piecesEscapeCodes.add(BLACK_BISHOP);
-                    case KING ->  piecesEscapeCodes.add(BLACK_KING);
+                    case KING -> piecesEscapeCodes.add(BLACK_KING);
                     case QUEEN -> piecesEscapeCodes.add(BLACK_QUEEN);
                 }
             }
+//            else if(piece.getTeamColor() == (ChessGame.TeamColor.WHITE)) {
+//                switch (piece.getPieceType()){
+//                    case PAWN -> piecesEscapeCodes.add(WHITE_PAWN);
+//                    case ROOK -> piecesEscapeCodes.add(WHITE_ROOK);
+//                    case KNIGHT -> piecesEscapeCodes.add(WHITE_KNIGHT);
+//                    case BISHOP -> piecesEscapeCodes.add(WHITE_BISHOP);
+//                    case KING -> piecesEscapeCodes.add(WHITE_KING);
+//                    case QUEEN -> piecesEscapeCodes.add(WHITE_QUEEN);
+//                }
+//            }
+//            else{
+//                switch (piece.getPieceType()){
+//                    case PAWN -> piecesEscapeCodes.add(BLACK_PAWN);
+//                    case ROOK -> piecesEscapeCodes.add(BLACK_ROOK);
+//                    case KNIGHT -> piecesEscapeCodes.add(BLACK_KNIGHT);
+//                    case BISHOP -> piecesEscapeCodes.add(BLACK_BISHOP);
+//                    case KING ->  piecesEscapeCodes.add(BLACK_KING);
+//                    case QUEEN -> piecesEscapeCodes.add(BLACK_QUEEN);
+//                }
+//            }
         }
         return piecesEscapeCodes;
     }
@@ -221,10 +238,10 @@ public class ChessBoardDraw {
                 System.out.print(SET_BG_COLOR_BLACK+ ui.EscapeSequences.SET_TEXT_COLOR_WHITE+" "+edgeChars[i-1]+" ");
             }
             else if(i==0){
-                System.out.print(SET_BG_COLOR_BLACK+ EMPTY+ "");
+                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "");
             }
             else{
-                System.out.print(SET_BG_COLOR_BLACK+ EMPTY+ "");
+                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "");
             }
 
         }
@@ -249,10 +266,27 @@ public class ChessBoardDraw {
         if(!highlight) {
             for (int i = 0; i < 8; i++) {
                 if (squareColor) {
-                    System.out.print(SET_BG_COLOR_LIGHT_GREY + getPiece(position));
+                    if(chessPieces.elementAt(position) == null){
+                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_LIGHT_GREY + getPiece(position));
+                    }
+                    else if(chessPieces.elementAt(position).getTeamColor() == ChessGame.TeamColor.WHITE){
+                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_WHITE + getPiece(position));
+                    }
+                    else {
+                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + getPiece(position));
+                    }
+
                     squareColor = false;
                 } else {
-                    System.out.print(SET_BG_COLOR_DARK_GREY + getPiece(position));
+                    if(chessPieces.elementAt(position) == null) {
+                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_DARK_GREY + getPiece(position));
+                    }
+                    else if(chessPieces.elementAt(position).getTeamColor() == ChessGame.TeamColor.WHITE){
+                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_WHITE + getPiece(position));
+                    }
+                    else {
+                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_BLACK + getPiece(position));
+                    }
                     squareColor = true;
                 }
             }
@@ -291,7 +325,7 @@ public class ChessBoardDraw {
                 }
             }
         }
-        System.out.print(SET_BG_COLOR_BLACK+" "+ columnInts[row]+" ");
+        System.out.print(SET_BG_COLOR_BLACK+SET_TEXT_COLOR_WHITE+" "+ columnInts[row]+" ");
         System.out.print(RESET_BG_COLOR+" \n");
         return squareColor;
     }
