@@ -219,25 +219,25 @@ public class ChessBoardDraw {
             for (int i = 0; i < 8; i++) {
                 if (squareColor) {
                     if(chessPieces.elementAt(position) == null){
-                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_LIGHT_GREY + getPiece(position));
+                        System.out.print(SET_BG_COLOR_LIGHT_TAN + SET_TEXT_COLOR_LIGHT_TAN + getPiece(position));
                     }
                     else if(chessPieces.elementAt(position).getTeamColor() == ChessGame.TeamColor.WHITE){
-                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_WHITE + getPiece(position));
+                        System.out.print(SET_BG_COLOR_LIGHT_TAN + SET_TEXT_COLOR_WHITE + getPiece(position));
                     }
                     else {
-                        System.out.print(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + getPiece(position));
+                        System.out.print(SET_BG_COLOR_LIGHT_TAN + SET_TEXT_COLOR_BLACK + getPiece(position));
                     }
 
                     squareColor = false;
                 } else {
                     if(chessPieces.elementAt(position) == null) {
-                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_DARK_GREY + getPiece(position));
+                        System.out.print(SET_BG_COLOR_DARK_TAN + SET_TEXT_COLOR_DARK_TAN + getPiece(position));
                     }
                     else if(chessPieces.elementAt(position).getTeamColor() == ChessGame.TeamColor.WHITE){
-                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_WHITE + getPiece(position));
+                        System.out.print(SET_BG_COLOR_DARK_TAN + SET_TEXT_COLOR_WHITE + getPiece(position));
                     }
                     else {
-                        System.out.print(SET_BG_COLOR_DARK_GREY + SET_TEXT_COLOR_BLACK + getPiece(position));
+                        System.out.print(SET_BG_COLOR_DARK_TAN + SET_TEXT_COLOR_BLACK + getPiece(position));
                     }
                     squareColor = true;
                 }
@@ -247,7 +247,7 @@ public class ChessBoardDraw {
             for(int i=0; i<8; i++){
                 if(squareColor){
                     if(highlightedSquares.isEmpty()){
-                        System.out.print(SET_BG_COLOR_LIGHT_GREY + getPiece(position));
+                        System.out.print(SET_BG_COLOR_LIGHT_TAN + getPiece(position));
                     }
                     else if(((i)*8)+row==highlightedSquares.get(0)){
                         System.out.print(SET_BG_COLOR_YELLOW+getPiece(position));
@@ -256,13 +256,13 @@ public class ChessBoardDraw {
                         System.out.print(SET_BG_COLOR_GREEN+getPiece(position));
                     }
                     else {
-                        System.out.print(SET_BG_COLOR_LIGHT_GREY + getPiece(position));
+                        System.out.print(SET_BG_COLOR_LIGHT_TAN + getPiece(position));
                     }
                     squareColor=false;
                 }
                 else{
                     if(highlightedSquares.isEmpty()){
-                        System.out.print(SET_BG_COLOR_DARK_GREY+getPiece(position));
+                        System.out.print(SET_BG_COLOR_DARK_TAN+getPiece(position));
                     }
                     else if((i*8)+row==highlightedSquares.get(0)){
                         System.out.print(SET_BG_COLOR_YELLOW+getPiece(position));
@@ -271,7 +271,7 @@ public class ChessBoardDraw {
                         System.out.print(SET_BG_COLOR_DARK_GREEN+getPiece(position));
                     }
                     else {
-                        System.out.print(SET_BG_COLOR_DARK_GREY+getPiece(position));
+                        System.out.print(SET_BG_COLOR_DARK_TAN+getPiece(position));
                     }
                     squareColor=true;
                 }
