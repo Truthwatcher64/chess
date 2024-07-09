@@ -16,8 +16,8 @@ public class ChessBoardConsole {
         ChessBoardDraw draw = new ChessBoardDraw();
         ChessGame game = new ChessGame();
 
-        //draw.printBoard(game, "black", -1, -1);
-        draw.printBoard(game, "white", -1, -1);
+        draw.printBoard(game, "black", -1, -1);
+        //draw.printBoard(game, "white", -1, -1);
     }
 
     public static Vector<String> basicBoard(){

@@ -206,7 +206,9 @@ public class ChessBoardDraw {
             columnInts=whiteNum;
         }
         else{
-            columnInts=blackNum;
+            //Because the row counter is different for black and white
+            // they can use the same array and will get reversed order
+            columnInts=whiteNum;
         }
         try {
             System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
