@@ -10,9 +10,9 @@ import java.util.Vector;
 import static ui.EscapeSequences.*;
 
 public class ChessBoardDraw {
-    public int position;
     public Vector<String> pieces;
     public Vector<ChessPiece> chessPieces = new Vector<>();
+    private int position;
     private ChessBoard board;
     private int[] whiteNum;
     private int[] blackNum;
@@ -27,44 +27,44 @@ public class ChessBoardDraw {
     }
 
     public void printBoard(ChessGame game, String color, int rowHighlight, int columnHighlight){
-//        System.out.print("\u001b");
         board = game.getBoard();
-        for(int i=1; i<=8; i++){
-            for(int j=1; j<=8; j++){
-                chessPieces.add(board.getPiece(new ChessPosition(i, j)));
-            }
-        }
+
         //black
         if(color!=null && color.equalsIgnoreCase("black")) {
-            position = 0;
-            pieces = basicBoard(game.getBoard());
-            pieces = reversePieces(pieces);
+            for(int i=1; i<=8; i++){
+                for(int j=1; j<=8; j++){
+                    chessPieces.add(board.getPiece(new ChessPosition(i, j)));
+                }
+            }
+            position =0;
+            pieces = convertToStrings(chessPieces);
             printBoard(false, rowHighlight, columnHighlight);
             System.out.println();
 
         }
         //white or observer
         else{
+            for(int i=8; i>=1; i--){
+                for(int j=1; j<=8; j++){
+                    chessPieces.add(board.getPiece(new ChessPosition(i, j)));
+                }
+            }
             position = 0;
-            pieces = basicBoard(game.getBoard());
+            pieces = convertToStrings(chessPieces);
+            pieces = reversePieces(pieces);
+//            for(ChessPiece piece: chessPieces){
+//                System.out.println(piece);
+//            }
             printBoard(true, rowHighlight, columnHighlight);
             System.out.println();
 
         }
     }
 
-    private Vector<String> basicBoard(ChessBoard board){
+    private Vector<String> convertToStrings(Vector<ChessPiece> chessPiecesCurrent){
         Vector<String> piecesEscapeCodes=new Vector<>();
-        Vector<ChessPiece> pulledPieces= new Vector<>();
-        Vector<ChessPiece> pulledPiecesBackward= new Vector<>();
-        for(int i=8; i>=1; i--){
-            for(int j=1; j<9; j++){
-                pulledPiecesBackward.add(board.getPiece(new ChessPosition(i, j)));
-            }
-        }
 
-
-        for(ChessPiece piece: pulledPiecesBackward){
+        for(ChessPiece piece: chessPiecesCurrent){
             if(piece==null){
                 piecesEscapeCodes.add(EMPTY);
             }
@@ -106,10 +106,10 @@ public class ChessBoardDraw {
 
         for(int i=0; i<8; i++){
             if(i%2 == 0){
-                printRow(square, i, !whiteSide, highlightCheck, possMoves);
+                printRow(square, i, whiteSide, highlightCheck, possMoves);
             }
             else{
-                printRow(!square, i, !whiteSide, highlightCheck, possMoves);
+                printRow(!square, i, whiteSide, highlightCheck, possMoves);
             }
         }
 
@@ -214,7 +214,7 @@ public class ChessBoardDraw {
             e.printStackTrace();
         }
         //one row
-        System.out.print(ui.EscapeSequences.SET_BG_COLOR_BLACK+ " "+columnInts[row]+" ");
+        System.out.print(ui.EscapeSequences.SET_BG_COLOR_BLACK+ SET_TEXT_COLOR_WHITE + " "+columnInts[row]+" ");
         if(!highlight) {
             for (int i = 0; i < 8; i++) {
                 if (squareColor) {
