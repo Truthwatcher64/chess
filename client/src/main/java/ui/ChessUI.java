@@ -185,32 +185,6 @@ public class ChessUI extends WebsocketClient{
         int tempColumn = ((temp.charAt(0) - 96));
         //flip the rows, this is need because in memory the rows are in a different order then they appear on screen
         tempColumn = 9 - tempColumn;
-//        switch (tempColumn){
-//            case(1):
-//                tempColumn=8;
-//                break;
-//            case(2):
-//                tempColumn=7;
-//                break;
-//            case(3):
-//                tempColumn=6;
-//                break;
-//            case(4):
-//                tempColumn=5;
-//                break;
-//            case(5):
-//                tempColumn=4;
-//                break;
-//            case(6):
-//                tempColumn=3;
-//                break;
-//            case(7):
-//                tempColumn=2;
-//                break;
-//            case(8):
-//                tempColumn=1;
-//                break;
-//        }
         int startRow=tempColumn;
         int startColumn=tempRow;
 
@@ -233,32 +207,7 @@ public class ChessUI extends WebsocketClient{
         tempColumn = ((temp.charAt(0) - 96));
         //flip the rows
         tempColumn = 9- tempColumn;
-//        switch (tempColumn){
-//            case(1):
-//                tempColumn=8;
-//                break;
-//            case(2):
-//                tempColumn=7;
-//                break;
-//            case(3):
-//                tempColumn=6;
-//                break;
-//            case(4):
-//                tempColumn=5;
-//                break;
-//            case(5):
-//                tempColumn=4;
-//                break;
-//            case(6):
-//                tempColumn=3;
-//                break;
-//            case(7):
-//                tempColumn=2;
-//                break;
-//            case(8):
-//                tempColumn=1;
-//                break;
-//        }
+
         int endRow=tempColumn;
         int endColumn=tempRow;
 

@@ -27,8 +27,8 @@ public class ChessBoardDraw {
     }
 
     public void printBoard(ChessGame game, String color, int rowHighlight, int columnHighlight){
-        System.out.print("\u001b");
-        board= game.getBoard();
+//        System.out.print("\u001b");
+        board = game.getBoard();
         for(int i=1; i<=8; i++){
             for(int j=1; j<=8; j++){
                 chessPieces.add(board.getPiece(new ChessPosition(i, j)));
@@ -57,17 +57,14 @@ public class ChessBoardDraw {
         Vector<String> piecesEscapeCodes=new Vector<>();
         Vector<ChessPiece> pulledPieces= new Vector<>();
         Vector<ChessPiece> pulledPiecesBackward= new Vector<>();
-        for(int i=1; i<9; i++){
+        for(int i=8; i>=1; i--){
             for(int j=1; j<9; j++){
-                pulledPiecesBackward.add((ChessPiece) board.getPiece(new ChessPosition(i, j)));
+                pulledPiecesBackward.add(board.getPiece(new ChessPosition(i, j)));
             }
         }
-        for(int i=pulledPiecesBackward.size()-1; i>=0; i--){
-            pulledPieces.add(pulledPiecesBackward.get(i));
-        }
 
 
-        for(ChessPiece piece: pulledPieces){
+        for(ChessPiece piece: pulledPiecesBackward){
             if(piece==null){
                 piecesEscapeCodes.add(EMPTY);
             }
@@ -81,26 +78,6 @@ public class ChessBoardDraw {
                     case QUEEN -> piecesEscapeCodes.add(BLACK_QUEEN);
                 }
             }
-//            else if(piece.getTeamColor() == (ChessGame.TeamColor.WHITE)) {
-//                switch (piece.getPieceType()){
-//                    case PAWN -> piecesEscapeCodes.add(WHITE_PAWN);
-//                    case ROOK -> piecesEscapeCodes.add(WHITE_ROOK);
-//                    case KNIGHT -> piecesEscapeCodes.add(WHITE_KNIGHT);
-//                    case BISHOP -> piecesEscapeCodes.add(WHITE_BISHOP);
-//                    case KING -> piecesEscapeCodes.add(WHITE_KING);
-//                    case QUEEN -> piecesEscapeCodes.add(WHITE_QUEEN);
-//                }
-//            }
-//            else{
-//                switch (piece.getPieceType()){
-//                    case PAWN -> piecesEscapeCodes.add(BLACK_PAWN);
-//                    case ROOK -> piecesEscapeCodes.add(BLACK_ROOK);
-//                    case KNIGHT -> piecesEscapeCodes.add(BLACK_KNIGHT);
-//                    case BISHOP -> piecesEscapeCodes.add(BLACK_BISHOP);
-//                    case KING ->  piecesEscapeCodes.add(BLACK_KING);
-//                    case QUEEN -> piecesEscapeCodes.add(BLACK_QUEEN);
-//                }
-//            }
         }
         return piecesEscapeCodes;
     }
@@ -183,33 +160,8 @@ public class ChessBoardDraw {
             allMovesReversed.add(moveImp);
 
         }
+        startingRow = 9- startingRow;
 
-        switch (startingRow){
-            case(1):
-                startingRow=8;
-                break;
-            case(2):
-                startingRow=7;
-                break;
-            case(3):
-                startingRow=6;
-                break;
-            case(4):
-                startingRow=5;
-                break;
-            case(5):
-                startingRow=4;
-                break;
-            case(6):
-                startingRow=3;
-                break;
-            case(7):
-                startingRow=2;
-                break;
-            case(8):
-                startingRow=1;
-                break;
-        }
         endingSpots.add((startingRow-1)+ (startingColumn-1)*8);
 
         for(ChessMove move: allMoves){
@@ -222,14 +174,14 @@ public class ChessBoardDraw {
     private void printEdge(boolean whiteSide){
         char[] edgeChars;
         if(whiteSide){
-            edgeChars=whiteChars;
+            edgeChars = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         }
         else{
-            edgeChars=blackChars;
+            edgeChars = new char[]{'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
         }
         //edge
         try {
-            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_16));
+            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -238,7 +190,7 @@ public class ChessBoardDraw {
                 System.out.print(SET_BG_COLOR_BLACK+ ui.EscapeSequences.SET_TEXT_COLOR_WHITE+" "+edgeChars[i-1]+" ");
             }
             else if(i==0){
-                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "");
+                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "" + StandardCharsets.UTF_8);
             }
             else{
                 System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "");

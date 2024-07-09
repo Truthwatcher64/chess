@@ -16,36 +16,12 @@ public class ChessBoardConsole {
         ChessBoardDraw draw = new ChessBoardDraw();
         ChessGame game = new ChessGame();
 
+        //draw.printBoard(game, "black", -1, -1);
         draw.printBoard(game, "white", -1, -1);
+    }
 
-//        try {
-//            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        pieces=basicBoard();
-//        System.out.print(SET_BG_COLOR_PURPLE+" A "+RESET_BG_COLOR+"\n");
-//        System.out.print(SET_BG_COLOR_BLUE+ " A "+RESET_BG_COLOR+"\n");
-//
-//
-//        printEmptyBoard();
-//        System.out.println();
-//        pieces=basicBoard();
-//        pieces=reversePieces(pieces);
-//        position=0;
-//        printEmptyBoard();
-    }
-    public void printBoard(){
-        printEmptyBoard();
-        System.out.println();
-        pieces=basicBoard();
-        pieces=reversePieces(pieces);
-        position=0;
-        printEmptyBoard();
-    }
     public static Vector<String> basicBoard(){
         Vector<String> pieces=new Vector<>();
-        //pieces.add(EMPTY);
         pieces.add(WHITE_ROOK);
         pieces.add(WHITE_KNIGHT);
         pieces.add(WHITE_BISHOP);
