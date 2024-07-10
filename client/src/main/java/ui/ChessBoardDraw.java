@@ -20,8 +20,8 @@ public class ChessBoardDraw {
     private char[] blackChars;
 
     public ChessBoardDraw(){
-        whiteNum= new int[]{1, 2, 3, 4, 5, 6, 7, 8};
-        blackNum= new int[]{8, 7, 6, 5, 4, 3, 2, 1};
+        blackNum= new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+        whiteNum= new int[]{8, 7, 6, 5, 4, 3, 2, 1};
         whiteChars= new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         blackChars= new char[]{'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
     }
@@ -201,7 +201,7 @@ public class ChessBoardDraw {
             }
 
         }
-        System.out.print(RESET_BG_COLOR+" \n");
+        System.out.print(RESET_BG_COLOR+ SET_TEXT_COLOR_WHITE + " \n");
     }
 
     private boolean printRow(boolean squareColor, int row, boolean whiteSide, boolean highlight, Vector<Integer> highlightedSquares){
@@ -210,9 +210,7 @@ public class ChessBoardDraw {
             columnInts=whiteNum;
         }
         else{
-            //Because the row counter is different for black and white
-            // they can use the same array and will get reversed order
-            columnInts=whiteNum;
+            columnInts=blackNum;
         }
         try {
             System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
