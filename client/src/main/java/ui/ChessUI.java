@@ -24,8 +24,7 @@ public class ChessUI extends WebsocketClient{
 
     public ChessUI(String authString, String color, int gameNum) throws Exception{
         super();
-        showMenu();
-        //new ChessBoardConsole().printBoard();
+
         this.authString=authString;
         this.gameNum=gameNum;
         if(color == null || color.equalsIgnoreCase("white") || color.isBlank()){
@@ -67,7 +66,6 @@ public class ChessUI extends WebsocketClient{
             System.out.println("Problem loading game. Run redraw");
         }
         else {
-            System.out.println("fail");
             drawer.printBoard(loadGame.getGame(), color, -1, -1);
         }
     }
@@ -78,8 +76,8 @@ public class ChessUI extends WebsocketClient{
     }
 
     private void help(){
-        System.out.println("White pieces: "+EscapeSequences.WHITE_KING +" "+EscapeSequences.WHITE_ROOK+" "+EscapeSequences.WHITE_PAWN);
-        System.out.println("Black pieces: "+EscapeSequences.BLACK_PAWN +" "+EscapeSequences.BLACK_QUEEN+" "+EscapeSequences.BLACK_BISHOP);
+        System.out.println("White pieces: "+ EscapeSequences.SET_TEXT_COLOR_WHITE + EscapeSequences.BLACK_QUEEN +" "+EscapeSequences.BLACK_ROOK+" "+EscapeSequences.BLACK_PAWN);
+        System.out.println("Black pieces: "+ EscapeSequences.SET_TEXT_COLOR_BLACK + EscapeSequences.BLACK_PAWN +" "+EscapeSequences.BLACK_QUEEN+" "+EscapeSequences.BLACK_BISHOP + EscapeSequences.SET_TEXT_COLOR_WHITE);
         System.out.println("[1] Help: Prints the help menu." );
         System.out.println("[2] Make Move: Enter your move with a starting position and ending position.\n" +
                 "\tExample g1 f3 or e2 e4. Use only lower case letters.");
@@ -109,7 +107,7 @@ public class ChessUI extends WebsocketClient{
             System.out.println("[5] Game Record");
             System.out.println("[6] Resign");
             System.out.println("[7] Leave\n");
-            input=Integer.parseInt(readLine(true, 6));
+            input=Integer.parseInt(readLine(true, 7));
             switch (input) {
                 case 1 -> help();
                 case 2 -> makeMove();
@@ -259,7 +257,6 @@ public class ChessUI extends WebsocketClient{
         if(temp.equalsIgnoreCase("y")) {
             try {
                 send(new Gson().toJson(new Resign(authString, gameNum)));
-                isRunning = false;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

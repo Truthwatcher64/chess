@@ -104,14 +104,14 @@ public class ChessGame {
         ChessPiece endPiece;
         Collection<ChessMove> tempMoves=new HashSet<>();
         for(ChessMove move: oldPossibleMoves) {
-            start = (ChessPosition) move.getStartPosition();
-            end = (ChessPosition) move.getEndPosition();
-            piece = (ChessPiece) fullBoard.getPiece(start);
-            endPiece = (ChessPiece) fullBoard.getPiece(end);
+            start = move.getStartPosition();
+            end = move.getEndPosition();
+            piece = fullBoard.getPiece(start);
+            endPiece = fullBoard.getPiece(end);
 
             //make the temporary move
             fullBoard.addPiece(end, piece);
-            fullBoard.addPiece(start, new ChessPiece(null, null));
+            fullBoard.addPiece(start, null);
 
             if (isInCheck(teamColor)) {
                 tempMoves.add(move);
@@ -197,8 +197,8 @@ public class ChessGame {
         }
 
         //update the game record
-        lastMove=(ChessMove) move;
-        lastPiece=(ChessPiece) fullBoard.getPiece(move.getEndPosition());
+        lastMove= move;
+        lastPiece=fullBoard.getPiece(move.getEndPosition());
         allGameMoves.add(move);
     }
 
@@ -234,14 +234,14 @@ public class ChessGame {
     }
 
     private void doPawnStuff(ChessPosition end, ChessMove move){
-        if(fullBoard.getPiece(end).getPieceType()== ChessPiece.PieceType.PAWN) {
-            if(enPassMove!=null) {
-
-                if (enPassMove.getEndPosition().equals(end)) {
-                    fullBoard.addPiece(lastMove.getEndPosition(), new ChessPiece(null, null));
-                }
-            }
-        }
+//        if(fullBoard.getPiece(end).getPieceType()== ChessPiece.PieceType.PAWN) {
+//            if(enPassMove!=null) {
+//
+//                if (enPassMove.getEndPosition().equals(end)) {
+//                    fullBoard.addPiece(end, enPassMove.);
+//                }
+//            }
+//        }
 
         if(activeColor ==TeamColor.WHITE) {
             if (end.getRow() == 8 && fullBoard.getPiece(end).getPieceType() == ChessPiece.PieceType.PAWN) {

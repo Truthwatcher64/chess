@@ -149,6 +149,7 @@ public class PostLoginUI {
             //Prints out the chessboard and runs the actual game
             ChessUI client = new ChessUI(authString, color, realGameID);
             client.send(new Gson().toJson(new Connect(authString, realGameID)));
+            client.showMenu();
 
         }
         catch(Exception e){
