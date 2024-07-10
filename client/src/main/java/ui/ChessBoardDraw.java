@@ -186,14 +186,18 @@ public class ChessBoardDraw {
             e.printStackTrace();
         }
         for(int i=0; i<10; i++){
-            if(i>0 && i<9){
-                System.out.print(SET_BG_COLOR_BLACK+ ui.EscapeSequences.SET_TEXT_COLOR_WHITE+" "+edgeChars[i-1]+" ");
+            if(i>0 && i<9 && i != 5){
+                System.out.print(SET_BG_COLOR_BLACK+ ui.EscapeSequences.SET_TEXT_COLOR_WHITE+edgeChars[i-1] + "   ");
             }
+            else if( i == 5){
+                System.out.print(SET_BG_COLOR_BLACK+ ui.EscapeSequences.SET_TEXT_COLOR_WHITE+edgeChars[i-1] + "  ");
+            }
+
             else if(i==0){
-                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "" + StandardCharsets.UTF_8);
+                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY);
             }
             else{
-                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY+ "");
+                System.out.print(SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLACK + EMPTY);
             }
 
         }
