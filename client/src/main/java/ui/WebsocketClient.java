@@ -18,23 +18,6 @@ public class WebsocketClient extends Endpoint {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         this.session = container.connectToServer(this, uri);
 
-//        this.session.addMessageHandler(new MessageHandler.Whole<String>(){
-//            public void onMessage(String message){
-//                ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
-//                switch (serverMessage.getServerMessageType()){
-//                    case ERROR -> {
-//                        error(message);
-//                    }
-//                    case NOTIFICATION -> {
-//                        notification(message);
-//                    }
-//                    case LOAD_GAME -> {
-//                        printGame(message);
-//                    }
-//                }
-//            }
-//        });
-
     }
     @Override
     public void onOpen(Session session, EndpointConfig endpointConfig) {

@@ -10,10 +10,11 @@ import websocket.messages.LoadGame;
 import websocket.messages.Notification;
 import websocket.messages.ServerMessage;
 
-import javax.websocket.MessageHandler;
+import javax.websocket.*;
+import java.net.URI;
 import java.util.Scanner;
 
-public class ChessUI extends WebsocketClient{
+public class ChessUI extends Endpoint {
 
     ChessBoardDraw drawer = new ChessBoardDraw();
     ChessGame localCopy = new ChessGame();
@@ -21,9 +22,12 @@ public class ChessUI extends WebsocketClient{
     private String authString;
     private int gameNum;
     private String color;
+    public Session session;
 
     public ChessUI(String authString, String color, int gameNum) throws Exception{
-        super();
+        URI uri = new URI("ws://localhost:8080/ws");
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        this.session = container.connectToServer(this, uri);
 
         this.authString=authString;
         this.gameNum=gameNum;
@@ -53,6 +57,15 @@ public class ChessUI extends WebsocketClient{
 
     }
 
+    @Override
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
+
+    }
+
+    public void send(String message) throws Exception {
+        this.session.getBasicRemote().sendText(message);
+    }
+
     private void error(String message){
         Error error = new Gson().fromJson(message, Error.class);
         System.out.println(error.getErrorMessage());
@@ -64,9 +77,11 @@ public class ChessUI extends WebsocketClient{
 
         if(loadGame == null || loadGame.getGame() == null){
             System.out.println("Problem loading game. Run redraw");
+            return;
         }
         else {
-            drawer.printBoard(loadGame.getGame(), color, -1, -1);
+            localCopy = loadGame.getGame();
+            drawer.printBoard(localCopy, color, -1, -1);
         }
     }
 
@@ -212,7 +227,7 @@ public class ChessUI extends WebsocketClient{
 
         //Quick Check in case of a promotion
         ChessPiece.PieceType type = null;
-        if(temp.charAt(0)-96==8 && color.equalsIgnoreCase("white")){
+        if(endRow==8 && color.equalsIgnoreCase("white")){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);
@@ -224,7 +239,7 @@ public class ChessUI extends WebsocketClient{
             }
         }
 
-        if(temp.charAt(0)-96==1 && color.equalsIgnoreCase("black")){
+        if(endRow==1 && color.equalsIgnoreCase("black")){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);

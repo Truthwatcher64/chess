@@ -84,8 +84,9 @@ public class PreloginUI {
             if(auth == null){
                 throw new Exception();
             }
-            new PostLoginUI(auth.getUsername(), auth.getAuthToken());
             System.out.println("Success\n");
+            PostLoginUI postLogin = new PostLoginUI(auth.getUsername(), auth.getAuthToken());
+            postLogin.showMenu();
         }
         catch(Exception e){
             System.out.println("Incorrect Username or Password");

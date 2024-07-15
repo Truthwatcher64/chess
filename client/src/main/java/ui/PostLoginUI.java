@@ -16,7 +16,7 @@ public class PostLoginUI {
     public PostLoginUI(String username, String authString) {
         this.username=username;
         this.authString=authString;
-        showMenu();
+        //showMenu();
     }
 
     public void showMenu(){
@@ -130,6 +130,7 @@ public class PostLoginUI {
     private void joinGame(){
         try {
             updateLocalGames();
+            listGame();
             System.out.println("Enter the Number for the Game or -1 to return to the menu:");
             int gameNum = Integer.parseInt(readLine(true, 9999));
             if(gameNum == -1){
@@ -147,6 +148,7 @@ public class PostLoginUI {
             new ServerFacade().joinGame(authString, realGameID, username, color);
 
             //Prints out the chessboard and runs the actual game
+            System.out.println("Joined "+localGames.get(gameNum).gameName());
             ChessUI client = new ChessUI(authString, color, realGameID);
             client.send(new Gson().toJson(new Connect(authString, realGameID)));
             client.showMenu();
@@ -162,6 +164,8 @@ public class PostLoginUI {
     }
     private void joinObserver(){
         try {
+            updateLocalGames();
+            listGame();
             System.out.println("Enter the Number for the Game or -1 to return to the menu:");
             int gameNum = Integer.parseInt(readLine(true, 9999));
             gameNum--;

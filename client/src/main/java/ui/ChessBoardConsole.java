@@ -21,43 +21,44 @@ public class ChessBoardConsole {
     }
 
     public static Vector<String> basicBoard(){
-        Vector<String> pieces=new Vector<>();
-        pieces.add(WHITE_ROOK);
-        pieces.add(WHITE_KNIGHT);
-        pieces.add(WHITE_BISHOP);
-        pieces.add(WHITE_QUEEN);
-        pieces.add(WHITE_KING);
-        pieces.add(WHITE_BISHOP);
-        pieces.add(WHITE_KNIGHT);
-        pieces.add(WHITE_ROOK);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        pieces.add(WHITE_PAWN);
-        for(int i=0; i<32; i++){
-            pieces.add(EMPTY);
-        }
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_PAWN);
-        pieces.add(BLACK_ROOK);
-        pieces.add(BLACK_KNIGHT);
-        pieces.add(BLACK_BISHOP);
-        pieces.add(BLACK_QUEEN);
-        pieces.add(BLACK_KING);
-        pieces.add(BLACK_BISHOP);
-        pieces.add(BLACK_KNIGHT);
-        pieces.add(BLACK_ROOK);
-        return pieces;
+//        Vector<String> pieces=new Vector<>();
+//        pieces.add(WHITE_ROOK);
+//        pieces.add(WHITE_KNIGHT);
+//        pieces.add(WHITE_BISHOP);
+//        pieces.add(WHITE_QUEEN);
+//        pieces.add(WHITE_KING);
+//        pieces.add(WHITE_BISHOP);
+//        pieces.add(WHITE_KNIGHT);
+//        pieces.add(WHITE_ROOK);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        pieces.add(WHITE_PAWN);
+//        for(int i=0; i<32; i++){
+//            pieces.add(EMPTY);
+//        }
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_PAWN);
+//        pieces.add(BLACK_ROOK);
+//        pieces.add(BLACK_KNIGHT);
+//        pieces.add(BLACK_BISHOP);
+//        pieces.add(BLACK_QUEEN);
+//        pieces.add(BLACK_KING);
+//        pieces.add(BLACK_BISHOP);
+//        pieces.add(BLACK_KNIGHT);
+//        pieces.add(BLACK_ROOK);
+//        return pieces;
+        return null;
     }
 
     public static Vector<String> reversePieces(Vector<String> pieces){

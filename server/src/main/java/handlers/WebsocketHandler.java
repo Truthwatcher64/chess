@@ -184,7 +184,8 @@ public class WebsocketHandler {
 
             sendToAll(new Gson().toJson(loadGame), currentGame.gameID());
 
-            Notification notification = new Notification(name + " made the move " + makeMove.getMove());
+            Notification notification = new Notification(name + " made the move ( " + makeMove.getMove().getStartPosition().getColumn() + ", " + makeMove.getMove().getStartPosition().getRow() + " ) " +
+                    "to ( " + makeMove.getMove().getEndPosition().getColumn() + ", " + makeMove.getMove().getEndPosition().getRow() + " ) ");
             sendToAllOthers(new Gson().toJson(notification), makeMove.getGameID(), makeMove.getAuthString());
 
         }
