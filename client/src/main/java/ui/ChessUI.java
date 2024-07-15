@@ -227,7 +227,7 @@ public class ChessUI extends Endpoint {
 
         //Quick Check in case of a promotion
         ChessPiece.PieceType type = null;
-        if(endRow==8 && color.equalsIgnoreCase("white")){
+        if(endRow==8 && color.equalsIgnoreCase("white") && localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);
@@ -239,7 +239,7 @@ public class ChessUI extends Endpoint {
             }
         }
 
-        if(endRow==1 && color.equalsIgnoreCase("black")){
+        if(endRow==1 && color.equalsIgnoreCase("black") && localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);
