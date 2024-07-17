@@ -176,7 +176,6 @@ public class WebsocketHandler {
             if(currentGame.game().getTeamTurn() != color){
                 throw new Exception("It's not your turn");
             }
-
             currentGame.game().makeMove(makeMove.getMove());
             gameDAO.updateGame(new Gson().toJson(currentGame.game()), makeMove.getGameID());
 

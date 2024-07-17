@@ -50,8 +50,11 @@ public class ChessBoardDraw {
                 }
             }
             position = 0;
+            //chessPieces = reversePiecesChessPieces(chessPieces);
+            System.out.println(chessPieces);
             pieces = convertToStrings(chessPieces);
-            pieces = reversePieces(pieces);
+            //pieces = reversePiecesStrings(pieces);
+
 //            for(ChessPiece piece: chessPieces){
 //                System.out.println(piece);
 //            }
@@ -82,7 +85,15 @@ public class ChessBoardDraw {
         return piecesEscapeCodes;
     }
 
-    private Vector<String> reversePieces(Vector<String> pieces){
+    private Vector<ChessPiece> reversePiecesChessPieces(Vector<ChessPiece> pieces){
+        Vector<ChessPiece> temp = new Vector<>();
+        for(int i = chessPieces.size()-1; i>=0; i--){
+            temp.add(pieces.elementAt(i));
+        }
+        return temp;
+    }
+
+    private Vector<String> reversePiecesStrings(Vector<String> pieces){
         Vector<String> temp=new Vector<>();
         for(int i=pieces.size()-1; i>=0; i--){
             temp.add(pieces.get(i));
@@ -231,7 +242,6 @@ public class ChessBoardDraw {
                     else {
                         System.out.print(SET_BG_COLOR_LIGHT_TAN + SET_TEXT_COLOR_BLACK + getPiece(position));
                     }
-
                     squareColor = false;
                 } else {
                     if(chessPieces.elementAt(position) == null) {

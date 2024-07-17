@@ -22,6 +22,15 @@ public class ChessGame {
     private ChessMove enPassMove;
     private ArrayList<ChessMove> allGameMoves;
 
+    @Override
+    public String toString() {
+        return "ChessGame{" +
+                "fullBoard=" + fullBoard +
+                ", activeColor=" + activeColor +
+                ", gameState=" + gameState +
+                '}';
+    }
+
     public boolean isGameState() {
         return gameState;
     }

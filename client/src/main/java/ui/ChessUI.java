@@ -77,7 +77,6 @@ public class ChessUI extends Endpoint {
 
         if(loadGame == null || loadGame.getGame() == null){
             System.out.println("Problem loading game. Run redraw");
-            return;
         }
         else {
             localCopy = loadGame.getGame();
