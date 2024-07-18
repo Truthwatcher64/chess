@@ -196,7 +196,9 @@ public class ChessUI extends Endpoint {
         int tempRow = Integer.parseInt(temp.charAt(1) + "");
         int tempColumn = ((temp.charAt(0) - 96));
         //flip the rows, this is need because in memory the rows are in a different order then they appear on screen
-        tempColumn = 9 - tempColumn;
+//        if(color.equalsIgnoreCase("Black")) {
+//            tempColumn = 9 - tempColumn;
+//        }
         int startRow=tempColumn;
         int startColumn=tempRow;
 
@@ -218,7 +220,9 @@ public class ChessUI extends Endpoint {
         tempRow = Integer.parseInt(temp.charAt(1) + "");
         tempColumn = ((temp.charAt(0) - 96));
         //flip the rows
-        tempColumn = 9- tempColumn;
+//        if(color.equalsIgnoreCase("Black")) {
+//            tempColumn = 9 - tempColumn;
+//        }
 
         int endRow=tempColumn;
         int endColumn=tempRow;

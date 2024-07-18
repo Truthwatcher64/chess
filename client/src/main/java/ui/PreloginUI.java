@@ -107,7 +107,8 @@ public class PreloginUI {
             RegisterResult auth=new ServerFacade().register(username, password, email);
             System.out.println("Success");
             System.out.println("\n");
-            new PostLoginUI(auth.getUsername(), auth.getAuthToken());
+            PostLoginUI post = new PostLoginUI(auth.getUsername(), auth.getAuthToken());
+            post.showMenu();
         }
         catch(Exception e){
             System.out.println("User already exists. Try a different Username");
