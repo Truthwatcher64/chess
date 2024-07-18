@@ -171,7 +171,13 @@ public class WebsocketHandler {
                 throw new Exception("Observer cannot make moves");
             }
 
-            ChessGame.TeamColor color = currentGame.whiteUsername().equals(name) ? ChessGame.TeamColor.WHITE : ChessGame.TeamColor.BLACK;
+            ChessGame.TeamColor color;
+            if(currentGame.whiteUsername() != null && currentGame.whiteUsername().equals(name)){
+                color = ChessGame.TeamColor.WHITE;
+            }
+            else {
+                color = ChessGame.TeamColor.BLACK;
+            }
 
             if(currentGame.game().getTeamTurn() != color){
                 throw new Exception("It's not your turn");
