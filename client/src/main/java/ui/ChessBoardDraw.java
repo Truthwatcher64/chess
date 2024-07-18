@@ -50,8 +50,8 @@ public class ChessBoardDraw {
                 }
             }
             position = 0;
-            //chessPieces = reversePiecesChessPieces(chessPieces);
-            System.out.println(chessPieces);
+            chessPieces = reversePiecesChessPieces(chessPieces);
+            //System.out.println(chessPieces);
             pieces = convertToStrings(chessPieces);
             //pieces = reversePiecesStrings(pieces);
 
@@ -87,9 +87,15 @@ public class ChessBoardDraw {
 
     private Vector<ChessPiece> reversePiecesChessPieces(Vector<ChessPiece> pieces){
         Vector<ChessPiece> temp = new Vector<>();
-        for(int i = chessPieces.size()-1; i>=0; i--){
-            temp.add(pieces.elementAt(i));
+        for(int i =8; i > 0; i--){
+            for(int j=1; j<9; j++){
+                //System.out.println(board.getPiece(new ChessPosition(i, j)));
+                temp.add(board.getPiece(new ChessPosition(i, j)));
+            }
         }
+//        for(int i = chessPieces.size()-1; i>=0; i--){
+//            temp.add(pieces.elementAt(i));
+//        }
         return temp;
     }
 
