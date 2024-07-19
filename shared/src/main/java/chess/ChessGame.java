@@ -201,8 +201,9 @@ public class ChessGame {
     }
 
     private void endOfTurnStuff(ChessMove move){
-        if (activeColor == TeamColor.WHITE)
+        if (activeColor == TeamColor.WHITE) {
             setTeamTurn(TeamColor.BLACK);
+        }
         else{
             setTeamTurn(TeamColor.WHITE);
         }
@@ -233,8 +234,9 @@ public class ChessGame {
             throw new InvalidMoveException("Piece at start is opponents piece");
         }
 
-        if(fullBoard.getPiece(end)!=null)
-            endPiece=fullBoard.getPiece(end);
+        if(fullBoard.getPiece(end)!=null) {
+            endPiece = fullBoard.getPiece(end);
+        }
         if(fullBoard.getPiece(start)==null){
             throw new InvalidMoveException("Start space is Empty");
         }
