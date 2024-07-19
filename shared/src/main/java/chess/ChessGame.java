@@ -138,29 +138,31 @@ public class ChessGame {
     }
 
     private Collection<ChessMove> enpassantMoves(Collection<ChessMove> oldPossibleMoves, ChessPiece tempPiece, ChessPosition startPosition){
-
-        if(tempPiece.getPieceType()== ChessPiece.PieceType.PAWN && startPosition.getRow()==5 && tempPiece.getTeamColor()==TeamColor.WHITE){
+        int startRow=startPosition.getRow();
+        int startCol=startPosition.getColumn();
+        if(tempPiece.getPieceType()== ChessPiece.PieceType.PAWN && startRow==5 && tempPiece.getTeamColor()==TeamColor.WHITE){
 
             if(lastPiece!=null) {
-                if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startPosition.getRow()  && lastMove.getEndPosition().getColumn() == startPosition.getColumn() + 1) {
-                    enPassMove=new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()+1), null);
-                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()+1), null));
+
+                if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startRow  && lastMove.getEndPosition().getColumn() == startCol + 1) {
+                    enPassMove=new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow+1, startCol+1), null);
+                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow+1, startCol+1), null));
                 }
-                else if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startPosition.getRow()  && lastMove.getEndPosition().getColumn() == startPosition.getColumn() - 1) {
-                    enPassMove=new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()-1), null);
-                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()-1), null));
+                else if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startRow  && lastMove.getEndPosition().getColumn() == startCol - 1) {
+                    enPassMove=new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow+1, startCol-1), null);
+                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow+1, startCol-1), null));
                 }
             }
         }
-        if(tempPiece.getPieceType()== ChessPiece.PieceType.PAWN&&startPosition.getRow()==4 && tempPiece.getTeamColor()==TeamColor.BLACK){
+        if(tempPiece.getPieceType()== ChessPiece.PieceType.PAWN && startRow==4 && tempPiece.getTeamColor()==TeamColor.BLACK){
             if(lastPiece!=null) {
-                if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startPosition.getRow() && lastMove.getEndPosition().getColumn() == startPosition.getColumn() + 1) {
-                    enPassMove=(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()-1, startPosition.getColumn()+1), null));
-                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()-1, startPosition.getColumn()+1), null));
+                if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startRow && lastMove.getEndPosition().getColumn() == startCol + 1) {
+                    enPassMove=(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow-1, startCol+1), null));
+                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow-1, startCol+1), null));
                 }
-                else if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startPosition.getRow() && lastMove.getEndPosition().getColumn() == startPosition.getColumn() - 1) {
-                    enPassMove=(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()-1, startPosition.getColumn()-1), null));
-                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startPosition.getRow(), startPosition.getColumn()), new ChessPosition(startPosition.getRow()-1, startPosition.getColumn()-1), null));
+                else if (lastPiece.getPieceType() == ChessPiece.PieceType.PAWN && lastMove.getEndPosition().getRow() == startRow && lastMove.getEndPosition().getColumn() == startCol - 1) {
+                    enPassMove=(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow-1, startCol-1), null));
+                    oldPossibleMoves.add(new ChessMove(new ChessPosition(startRow, startCol), new ChessPosition(startRow-1, startCol-1), null));
 
                 }
             }
