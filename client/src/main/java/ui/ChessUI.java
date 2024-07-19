@@ -90,8 +90,10 @@ public class ChessUI extends Endpoint {
     }
 
     private void help(){
-        System.out.println("White pieces: "+ EscapeSequences.SET_TEXT_COLOR_WHITE + EscapeSequences.BLACK_QUEEN +" "+EscapeSequences.BLACK_ROOK+" "+EscapeSequences.BLACK_PAWN);
-        System.out.println("Black pieces: "+ EscapeSequences.SET_TEXT_COLOR_BLACK + EscapeSequences.BLACK_PAWN +" "+EscapeSequences.BLACK_QUEEN+" "+EscapeSequences.BLACK_BISHOP + EscapeSequences.SET_TEXT_COLOR_WHITE);
+        System.out.println("White pieces: "+ EscapeSequences.SET_TEXT_COLOR_WHITE + EscapeSequences.BLACK_QUEEN +" "
+                +EscapeSequences.BLACK_ROOK+" "+EscapeSequences.BLACK_PAWN);
+        System.out.println("Black pieces: "+ EscapeSequences.SET_TEXT_COLOR_BLACK + EscapeSequences.BLACK_PAWN +" "
+                +EscapeSequences.BLACK_QUEEN+" "+EscapeSequences.BLACK_BISHOP + EscapeSequences.SET_TEXT_COLOR_WHITE);
         System.out.println("[1] Help: Prints the help menu." );
         System.out.println("[2] Make Move: Enter your move with a starting position and ending position.\n" +
                 "\tExample g1 f3 or e2 e4. Use only lower case letters.");
@@ -230,7 +232,8 @@ public class ChessUI extends Endpoint {
 
         //Quick Check in case of a promotion
         ChessPiece.PieceType type = null;
-        if(endRow==8 && color.equalsIgnoreCase("white") && localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
+        if(endRow==8 && color.equalsIgnoreCase("white") &&
+                localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);
@@ -242,7 +245,8 @@ public class ChessUI extends Endpoint {
             }
         }
 
-        if(endRow==1 && color.equalsIgnoreCase("black") && localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
+        if(endRow==1 && color.equalsIgnoreCase("black") &&
+                localCopy.getBoard().getPiece(new ChessPosition(startRow, startColumn)).getPieceType() == ChessPiece.PieceType.PAWN){
             System.out.println("Enter the promotion piece");
             System.out.println("Queen-1\nBishop-2\nKnight-3\nRook-4");
             temp=readLine(true, 4);
