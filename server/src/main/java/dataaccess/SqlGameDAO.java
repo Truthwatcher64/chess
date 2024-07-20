@@ -120,12 +120,14 @@ public class SqlGameDAO implements GameDAO{
         DatabaseManager databaseManager=new DatabaseManager();
         try(Connection conn = databaseManager.getConnection()){
             if(color== ChessGame.TeamColor.WHITE) {
-                try (var preparedStatement = conn.prepareStatement("UPDATE " + TABLENAME + " SET `whiteUsername`=\""+username+"\" WHERE `gameID`="+gameID+";")) {
+                String line = "UPDATE " + TABLENAME + " SET `whiteUsername`=\""+username+"\" WHERE `gameID`="+gameID+";";
+                try (var preparedStatement = conn.prepareStatement(line)) {
                     preparedStatement.executeUpdate();
                 }
             }
             else{
-                try (var preparedStatement = conn.prepareStatement("UPDATE " + TABLENAME + " SET `blackUsername`=\""+username+"\" WHERE `gameID`="+gameID+";")) {
+                String line = "UPDATE " + TABLENAME + " SET `blackUsername`=\""+username+"\" WHERE `gameID`="+gameID+";";
+                try (var preparedStatement = conn.prepareStatement(line)) {
                     preparedStatement.executeUpdate();
                 }
             }

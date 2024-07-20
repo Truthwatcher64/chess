@@ -84,10 +84,12 @@ public class WebsocketHandler {
 
                 String username = authDAO.getUsername(connect.getAuthString());
                 String color = null;
-                if (gameDAO.getGame(connect.getGameID()).whiteUsername() != null && gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)) {
+                if (gameDAO.getGame(connect.getGameID()).whiteUsername() != null &&
+                        gameDAO.getGame(connect.getGameID()).whiteUsername().equals(username)) {
                     color = "White";
                 }
-                if (gameDAO.getGame(connect.getGameID()).blackUsername() != null && gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)) {
+                if (gameDAO.getGame(connect.getGameID()).blackUsername() != null &&
+                        gameDAO.getGame(connect.getGameID()).blackUsername().equals(username)) {
                     color = "Black";
                 }
 
@@ -189,7 +191,8 @@ public class WebsocketHandler {
 
             sendToAll(new Gson().toJson(loadGame), currentGame.gameID());
 
-            Notification notification = new Notification(name + " made the move ( " + makeMove.getMove().getStartPosition().getColumn() + ", " + makeMove.getMove().getStartPosition().getRow() + " ) " +
+            Notification notification = new Notification(name + " made the move ( " + makeMove.getMove().getStartPosition().getColumn() +
+                    ", " + makeMove.getMove().getStartPosition().getRow() + " ) " +
                     "to ( " + makeMove.getMove().getEndPosition().getColumn() + ", " + makeMove.getMove().getEndPosition().getRow() + " ) ");
             sendToAllOthers(new Gson().toJson(notification), makeMove.getGameID(), makeMove.getAuthString());
 

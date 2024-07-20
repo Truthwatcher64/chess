@@ -47,7 +47,8 @@ public class JoinService extends Service{
                 }
             }
             if(color == ChessGame.TeamColor.BLACK) {
-                if (gameDAO.getGame(request.getGameID()).blackUsername()==null || gameDAO.getGame(request.getGameID()).blackUsername().equals(request.getUserName())){
+                if (gameDAO.getGame(request.getGameID()).blackUsername()==null ||
+                        gameDAO.getGame(request.getGameID()).blackUsername().equals(request.getUserName())){
                     gameDAO.addPlayer(request.getUserName(), color, request.getGameID());
                 }
                 else{
